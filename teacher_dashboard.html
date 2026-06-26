@@ -152,7 +152,13 @@ async function loadAll(){
 
 /* ===== 학생 묶기 ===== */
 // 같은 사람 키: idkey 있으면 idkey, 없으면 name
-function personKey(r){ return (r.idkey&&r.idkey.trim())? 'id:'+r.idkey : 'nm:'+(r.name||'').trim() }
+// 학생 묶는 키: 이름 기준 (앱마다 아이디가 달라서 이름으로 합침)
+// 이름의 앞뒤/중간 공백 차이는 무시
+function personKey(r){
+  const nm=String(r.name||'').replace(/\s+/g,'').trim();
+  if(nm) return 'nm:'+nm;
+  return 'id:'+(r.idkey||'').trim();
+}
 
 // 한 기록이 '재시험'인지 판단 (과목별 기준)
 function isRetryRecord(r){
@@ -221,13 +227,30 @@ function detailGram(r){
   return {title, lines, wrongs};
 }
 function detailVoca(r){
-  const d=r.detail;
+  const d=r.detail||{};
   const title='단어 · '+(d.unit||'');
   const tot=(Number(d.s1score)||0)+(Number(d.s2score)||0)+(Number(d.s3score)||0)+(Number(d.s4score)||0);
   const lines=['총 '+tot+'점'];
   const wrongs=[];
-  [['1',d.s1wrong],['2',d.s2wrong],['3',d.s3wrong],['4',d.s4wrong]].forEach(([n,w])=>{
-    const arr=mw(w); if(arr.length) wrongs.push('Stage '+n+': '+arr.join(', '));
+  const labels={1:'Stage 1',2:'Stage 2',3:'Stage 3',4:'Stage 4'};
+  // 칸 이름이 s1wrong / S1wrong / stage1wrong 등으로 올 수 있어 다 시도
+  const pickWrong=n=>{
+    const keys=['s'+n+'wrong','S'+n+'wrong','stage'+n+'wrong','wrong'+n];
+    for(const k of keys){ if(d[k]!=null && String(d[k]).trim()!=='') return d[k]; }
+    return '';
+  };
+  const pickScore=n=>{
+    const keys=['s'+n+'score','S'+n+'score','stage'+n+'score'];
+    for(const k of keys){ if(d[k]!=null && String(d[k]).trim()!=='') return d[k]; }
+    return null;
+  };
+  [1,2,3,4].forEach(n=>{
+    const sc=pickScore(n); const w=mw(pickWrong(n));
+    if(sc==null && !w.length) return;            // 그 단계 자체가 없으면 건너뜀
+    let line=labels[n]+(sc!=null?' · '+sc+'점':'');
+    if(w.length) line+=' · 오답 '+w.length+'개: '+w.join(', ');
+    else line+=' · 오답 없음';
+    wrongs.push(line);
   });
   return {title, lines, wrongs};
 }
@@ -382,4 +405,3 @@ render();
 </script>
 </body>
 </html>
-
