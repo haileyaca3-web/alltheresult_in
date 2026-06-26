@@ -38,6 +38,8 @@ input:focus{border-color:#2b4f82}
 .empty{text-align:center;color:#6c7a90;padding:40px 0}
 .spin{text-align:center;color:#6c7a90;padding:30px 0}
 .chev{margin-left:auto;color:#9aa6b8;font-size:18px}
+.isretry{border-color:#f1b6b6;background:#fdf3f2}
+.retrybadge{display:inline-block;font-size:12px;font-weight:800;color:#fff;background:#c0392b;border-radius:999px;padding:2px 10px}
 /* detail */
 .back{background:#eef1f6;border:none;border-radius:10px;padding:8px 14px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;color:#13233f}
 .secth{font-size:14px;font-weight:800;margin:16px 0 8px;display:flex;align-items:center;gap:8px}
@@ -152,6 +154,38 @@ async function loadAll(){
 // 같은 사람 키: idkey 있으면 idkey, 없으면 name
 function personKey(r){ return (r.idkey&&r.idkey.trim())? 'id:'+r.idkey : 'nm:'+(r.name||'').trim() }
 
+// 한 기록이 '재시험'인지 판단 (과목별 기준)
+function isRetryRecord(r){
+  const d=r.detail||{};
+  if(r.subject==='gram') return (Number(d.round)||1)>=2;
+  if(r.subject==='read') return String(d.retry||'').toUpperCase()==='Y';
+  if(r.subject==='mock'){
+    if(Number(d.retries)>0) return true;
+    const sm=String(d.summary||'');
+    return /재시험 여부:\s*필요/.test(sm)||/최종:\s*미통과/.test(sm);
+  }
+  if(r.subject==='voca'){
+    // Stage 1 또는 Stage 2 오답 4개 이상이면 재시험
+    const d=r.detail||{};
+    const w1=mw(d.s1wrong).length, w2=mw(d.s2wrong).length;
+    return w1>=4 || w2>=4;
+  }
+  return false;
+}
+// 'YYYY-M' 월키
+function monthKey(ts){ const d=new Date(ts); return d.getFullYear()+'-'+(d.getMonth()+1); }
+// 한 사람의 이번 달(해당 ts가 속한 달) 재시험 누적 횟수
+function monthlyRetryCount(pkey, ts){
+  const mk=monthKey(ts);
+  let n=0;
+  RECORDS.forEach(r=>{
+    if(personKey(r)!==pkey) return;
+    if(monthKey(r.ts)!==mk) return;
+    if(isRetryRecord(r)) n++;
+  });
+  return n;
+}
+
 function groupForList(){
   // 기간 필터
   const now=new Date(); const t0=new Date(now.getFullYear(),now.getMonth(),now.getDate()).getTime();
@@ -164,7 +198,11 @@ function groupForList(){
     if(!groups[k]) groups[k]={key:k, name:r.name, pkey:personKey(r), dayKey:r.dayKey, dateStr:r.dateStr, ts:r.ts, subs:new Set(), recs:[]};
     const g=groups[k]; g.subs.add(r.subject); g.recs.push(r); if(r.ts>g.ts)g.ts=r.ts;
   });
-  return Object.values(groups).sort((a,b)=>b.ts-a.ts);
+  return Object.values(groups).map(g=>{
+    g.hasRetry = g.recs.some(isRetryRecord);
+    g.monthRetry = monthlyRetryCount(g.pkey, g.ts);
+    return g;
+  }).sort((a,b)=>b.ts-a.ts);
 }
 
 /* ===== 과목별 상세/카톡 텍스트 ===== */
@@ -242,6 +280,7 @@ function subjectBlockHTML(subject, recs){
 function buildKakao(group){
   const recs=group.recs;
   const L=[`[${ACADEMY}] ${group.name} · ${group.dateStr}`, '━━━━━━━━━━━━'];
+  if(group.hasRetry) L.push('※ 재시험 본 학생 (이번 달 누적 '+group.monthRetry+'회)');
   ['read','voca','gram','mock'].forEach(sub=>{
     const rs=recs.filter(r=>r.subject===sub); if(!rs.length) return;
     L.push(''); L.push('■ '+APPS[sub].name);
@@ -292,8 +331,12 @@ function render(){
         const idx=GIDX(g);
         const subs=[...g.subs];
         const tags=subs.map(s=>`<span class="tag ${s}">${APPS[s].name}</span>`).join('');
-        h+=`<div class="card stud" onclick="openStudent(${idx})">
-          <div><div class="nm">${esc(g.name)}</div><div class="meta">${subs.length}과목 응시</div>
+        const red=g.hasRetry;
+        const nmeta = red
+          ? `<span class="retrybadge">재시험 · 이번 달 ${g.monthRetry}회</span>`
+          : `${subs.length}과목 응시`;
+        h+=`<div class="card stud ${red?'isretry':''}" onclick="openStudent(${idx})">
+          <div><div class="nm" style="${red?'color:#c0392b':''}">${esc(g.name)}</div><div class="meta">${nmeta}</div>
           <div class="subtags">${tags}</div></div><div class="chev">›</div></div>`;
       });
     });
@@ -304,6 +347,7 @@ function render(){
     let h=`<div class="head"><button class="back" onclick="SCREEN='list';render()">‹ 목록</button>
       <h1 style="font-size:18px;margin-left:6px">${esc(g.name)}</h1></div>
       <div class="muted" style="margin:0 2px 12px">${g.dateStr}</div>
+      ${g.hasRetry?`<div class="card isretry" style="margin-bottom:12px;color:#c0392b;font-weight:700">재시험 본 학생 · 이번 달 누적 ${g.monthRetry}회</div>`:''}
       <button class="btn k" style="width:100%;padding:13px;margin-bottom:14px" onclick="copyCur()">이 학생 · 이 날 전체 카톡 복사</button>`;
     ['read','voca','gram','mock'].forEach(sub=>{
       const rs=g.recs.filter(r=>r.subject===sub);
@@ -338,3 +382,4 @@ render();
 </script>
 </body>
 </html>
+
