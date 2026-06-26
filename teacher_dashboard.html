@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>헤일리 학원 · 통합 결과</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans KR',sans-serif;background:#f4f6fa;color:#16202f;padding:18px 14px 60px;max-width:760px;margin:0 auto}
+.head{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.head h1{font-size:20px;font-weight:800}
+.head .sp{margin-left:auto}
+.btn{border:none;border-radius:10px;padding:9px 14px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit}
+.btn.p{background:#13233f;color:#fff}
+.btn.g{background:#eef1f6;color:#13233f}
+.btn.k{background:#fae100;color:#3a2c00}
+.btn.gr{background:#1d9e75;color:#fff}
+.btn:disabled{opacity:.4;cursor:default}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.card{background:#fff;border:1px solid #e2e7ef;border-radius:14px;padding:14px 16px;margin-bottom:10px;box-shadow:0 2px 10px rgba(19,35,63,.05)}
+.login{max-width:380px;margin:60px auto 0;text-align:center}
+.login h1{font-size:22px;margin-bottom:6px}.login p{color:#6c7a90;font-size:14px;margin-bottom:20px}
+input{width:100%;border:1.5px solid #dde3ec;border-radius:10px;padding:13px 14px;font-size:16px;font-family:inherit;outline:none;margin-bottom:10px}
+input:focus{border-color:#2b4f82}
+.daylabel{font-weight:800;color:#13233f;margin:16px 2px 8px;font-size:15px}
+.stud{display:flex;align-items:center;gap:10px;cursor:pointer}
+.stud .nm{font-size:17px;font-weight:700}
+.stud .meta{font-size:12.5px;color:#6c7a90;margin-top:2px}
+.pill{font-size:12px;font-weight:700;border-radius:999px;padding:3px 10px;color:#fff}
+.pill.g{background:#1d9e75}.pill.b{background:#2b4f82}
+.subtags{display:flex;gap:5px;flex-wrap:wrap;margin-top:7px}
+.tag{font-size:11.5px;font-weight:700;border-radius:7px;padding:2px 8px}
+.tag.gram{background:#eef6ff;color:#2b6cb0}
+.tag.voca{background:#eafaf3;color:#0f7a56}
+.tag.read{background:#fef3e7;color:#9a5b1e}
+.tag.mock{background:#f0eefe;color:#5b4bb0}
+.muted{color:#6c7a90;font-size:13px}
+.empty{text-align:center;color:#6c7a90;padding:40px 0}
+.spin{text-align:center;color:#6c7a90;padding:30px 0}
+.chev{margin-left:auto;color:#9aa6b8;font-size:18px}
+/* detail */
+.back{background:#eef1f6;border:none;border-radius:10px;padding:8px 14px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;color:#13233f}
+.secth{font-size:14px;font-weight:800;margin:16px 0 8px;display:flex;align-items:center;gap:8px}
+.secth .dot{width:8px;height:8px;border-radius:50%}
+.dot.gram{background:#2b6cb0}.dot.voca{background:#0f7a56}.dot.read{background:#9a5b1e}.dot.mock{background:#5b4bb0}
+.line{font-size:14px;line-height:1.65;color:#2a3548}
+.line .sc{font-weight:700}
+.wrong{margin-top:6px;padding:10px 12px;background:#fbeae6;border-left:3px solid #c0492f;border-radius:0 8px 8px 0;font-size:13.5px;line-height:1.6;color:#7a2415}
+.wrong b{color:#c0492f}
+.subbox{border:1px solid #e2e7ef;border-radius:12px;padding:12px 14px;margin-bottom:10px}
+.warnbox{background:#fff;border:1px solid #f1b6b6;color:#b3261e}
+.toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%);background:#13233f;color:#fff;padding:11px 22px;border-radius:999px;font-size:14px;font-weight:700;opacity:0;transition:.25s;pointer-events:none;z-index:99}
+.toast.show{opacity:1}
+.note{font-size:12px;color:#9aa6b8;margin-top:4px;line-height:1.5}
+.err{font-size:12px;color:#c0492f;margin-top:4px}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<div class="toast" id="toast"></div>
+<script>
+/* ===== 설정 ===== */
+const TEACHER_PW = 'haileyaca1@';
+const APPS = {
+  gram: { name:'문법',   url:'https://script.google.com/macros/s/AKfycbzUm4lQkMtuqIW2AdHkRVOf8dGHieKKq4Rg8ar1LsL-jD4YRTr8AnngbXkMboStGrjQ/exec' },
+  voca: { name:'보카',   url:'https://script.google.com/macros/s/AKfycbxmAKVf0x4D3WfQAkepaWvnYODrpbtKpQxCjtBc8mpXz0sFe6Wzroed6PSmHGse4Tj03Q/exec' },
+  read: { name:'리딩',   url:'https://script.google.com/macros/s/AKfycbxwNlGpJiUVXGMzWoJwxZhVjarVKLPNaQ79N3L9q8C7AxfeDsTYSSuW2JSh7TYlbKLfZg/exec' },
+  mock: { name:'모의고사', url:'https://script.google.com/macros/s/AKfycbwa7ux4l63hTDqNUYPlUZ4xanz-VaxSNpJAEuvSHNewQz3sHge-YHnk7qM1ESar7CvM/exec' },
+};
+const ACADEMY = '헤일리 학원';
+
+/* ===== 상태 ===== */
+let SCREEN='login', LOADING=false, SHOW_ALL=false;
+let RECORDS=[];   // 정규화된 결과: {subject, key('today'/'date'), name, idkey, dateStr, dayKey, ts, detail{...}}
+let ERRORS=[];    // 못 불러온 앱
+
+/* ===== 유틸 ===== */
+const $=id=>document.getElementById(id);
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function toast(m){const t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(window._tt);window._tt=setTimeout(()=>t.classList.remove('show'),2000)}
+function mw(s){return s?String(s).split(',').map(x=>x.trim()).filter(Boolean):[]}
+
+// 다양한 날짜 문자열 → {ts, dayKey 'YYYY-M-D', label}
+function parseDate(s){
+  if(s==null) return null;
+  // 숫자 timestamp(ms)
+  if(typeof s==='number' || /^\d{10,}$/.test(String(s))){
+    const d=new Date(Number(s)); if(!isNaN(d)) return mk(d);
+  }
+  const str=String(s).trim();
+  let d=new Date(str);
+  if(!isNaN(d) && !/^\d{4}\.\s*\d/.test(str)) return mk(d);
+  // 한국어 "2026. 6. 25. 오후 8:37:00"
+  const m=str.match(/(\d{4})\.\s*(\d{1,2})\.\s*(\d{1,2})\.?\s*(오전|오후)?\s*(\d{1,2})?:?(\d{2})?/);
+  if(m){
+    let h=m[5]?parseInt(m[5]):0; const min=m[6]?parseInt(m[6]):0;
+    if(m[4]==='오후'&&h<12)h+=12; if(m[4]==='오전'&&h===12)h=0;
+    d=new Date(parseInt(m[1]),parseInt(m[2])-1,parseInt(m[3]),h,min);
+    if(!isNaN(d)) return mk(d);
+  }
+  return null;
+  function mk(d){return {ts:d.getTime(), dayKey:d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(),
+    label:d.getFullYear()+'년 '+(d.getMonth()+1)+'월 '+d.getDate()+'일'}}
+}
+function fetchJSON(url){return fetch(url,{cache:'no-store'}).then(r=>r.json())}
+
+/* ===== 4개 앱 결과 불러오기 ===== */
+async function loadAll(){
+  LOADING=true; ERRORS=[]; RECORDS=[]; render();
+  const jobs=[];
+  // 문법: allResults
+  jobs.push(fetchJSON(APPS.gram.url+'?action=allResults').then(j=>{
+    const list=(j&&j.list)||[];
+    list.forEach(r=>{
+      const dt=parseDate(r.ts||r.date); if(!dt) return;
+      RECORDS.push({subject:'gram', name:r.name||r.username, idkey:(r.username||r.name||'').toLowerCase(),
+        dateStr:dt.label, dayKey:dt.dayKey, ts:dt.ts, detail:r});
+    });
+  }).catch(e=>ERRORS.push('문법')));
+  // 보카: getResults division 두 번
+  ['중등부','고등부'].forEach(div=>{
+    jobs.push(fetchJSON(APPS.voca.url+'?action=getResults&division='+encodeURIComponent(div)).then(arr=>{
+      (arr||[]).forEach(r=>{
+        const dt=parseDate(r.date); if(!dt) return;
+        RECORDS.push({subject:'voca', name:r.name, idkey:(r.id||r.name||'').toLowerCase(),
+          dateStr:dt.label, dayKey:dt.dayKey, ts:dt.ts, detail:r});
+      });
+    }).catch(e=>{ if(!ERRORS.includes('보카'))ERRORS.push('보카') }));
+  });
+  // 리딩: getResults
+  jobs.push(fetchJSON(APPS.read.url+'?action=getResults').then(arr=>{
+    (arr||[]).forEach(r=>{
+      const dt=parseDate(r.date); if(!dt) return;
+      RECORDS.push({subject:'read', name:r.name, idkey:(r.id||r.name||'').toLowerCase(),
+        dateStr:dt.label, dayKey:dt.dayKey, ts:dt.ts, detail:r});
+    });
+  }).catch(e=>ERRORS.push('리딩')));
+  // 모의고사: 전체
+  jobs.push(fetchJSON(APPS.mock.url).then(arr=>{
+    (arr||[]).forEach(r=>{
+      const dt=parseDate(r.time); if(!dt) return;
+      RECORDS.push({subject:'mock', name:r.student, idkey:(r.id||r.student||'').toLowerCase(),
+        dateStr:dt.label, dayKey:dt.dayKey, ts:dt.ts, detail:r});
+    });
+  }).catch(e=>ERRORS.push('모의고사')));
+
+  await Promise.all(jobs);
+  LOADING=false; render();
+}
+
+/* ===== 학생 묶기 ===== */
+// 같은 사람 키: idkey 있으면 idkey, 없으면 name
+function personKey(r){ return (r.idkey&&r.idkey.trim())? 'id:'+r.idkey : 'nm:'+(r.name||'').trim() }
+
+function groupForList(){
+  // 기간 필터
+  const now=new Date(); const t0=new Date(now.getFullYear(),now.getMonth(),now.getDate()).getTime();
+  const cut=t0-86400000; // 어제 0시
+  const recs=SHOW_ALL?RECORDS:RECORDS.filter(r=>r.ts>=cut);
+  // (학생 + 날짜)별 묶기
+  const groups={};
+  recs.forEach(r=>{
+    const k=personKey(r)+'|'+r.dayKey;
+    if(!groups[k]) groups[k]={key:k, name:r.name, pkey:personKey(r), dayKey:r.dayKey, dateStr:r.dateStr, ts:r.ts, subs:new Set(), recs:[]};
+    const g=groups[k]; g.subs.add(r.subject); g.recs.push(r); if(r.ts>g.ts)g.ts=r.ts;
+  });
+  return Object.values(groups).sort((a,b)=>b.ts-a.ts);
+}
+
+/* ===== 과목별 상세/카톡 텍스트 ===== */
+// 반환: {title, lines:[..], wrongs:[..]}  (lines/wrongs는 문자열 배열)
+function detailGram(r){
+  const d=r.detail;
+  const unit=String(d.unit||'').replace(/—.*$/,'').trim()||d.chapterTitle||'';
+  const title=(d.chapterTitle||'')+(unit?' › '+unit:'')+(d.round?' · '+d.round+'회차':'');
+  const lines=['정답 '+d.correct+'/'+d.total+' ('+d.score+'점)'+(d.passed?' · 통과':' · 미통과')];
+  const wrongs=[];
+  (d.wrongList||[]).forEach(w=>{
+    const stem=String(w.q||'').replace(/\[\/?U\]/g,'').replace(/\n/g,' ').trim();
+    wrongs.push(stem);
+    if(w.type==='mc'&&w.choices) (w.choices||[]).forEach((c,i)=>wrongs.push('   '+(i+1)+') '+String(c).replace(/\[\/?U\]/g,'')));
+  });
+  return {title, lines, wrongs};
+}
+function detailVoca(r){
+  const d=r.detail;
+  const title='단어 · '+(d.unit||'');
+  const tot=(Number(d.s1score)||0)+(Number(d.s2score)||0)+(Number(d.s3score)||0)+(Number(d.s4score)||0);
+  const lines=['총 '+tot+'점'];
+  const wrongs=[];
+  [['1',d.s1wrong],['2',d.s2wrong],['3',d.s3wrong],['4',d.s4wrong]].forEach(([n,w])=>{
+    const arr=mw(w); if(arr.length) wrongs.push('Stage '+n+': '+arr.join(', '));
+  });
+  return {title, lines, wrongs};
+}
+function detailRead(r){
+  const d=r.detail;
+  const ST={1:'1단계 문장(한국어)',2:'2단계 문장(영어)',3:'3-1 단어객관식',4:'4-1 빈칸객관식',5:'4-2 빈칸주관식',6:'3-2 단어주관식'};
+  const title=(d.book||'')+(d.unit?' · '+d.unit:'');
+  const sname=ST[Number(d.stage)]||('단계 '+d.stage);
+  const wrongN=(Number(d.total)||0)-(Number(d.score)||0);
+  const lines=[sname+': '+d.score+'/'+d.total+' · 오답 '+wrongN+'개'];
+  const wrongs=[];
+  const c=d.wrongContent;
+  if(c){
+    if(String(c).includes('|||')){
+      String(c).split('///').forEach(p=>{ const [a,b]=p.split('|||').map(x=>x.trim());
+        if(a||b){ wrongs.push(a||''); if(b) wrongs.push('   '+b); } });
+    }else{
+      mw(c).forEach(w=>wrongs.push(w));
+    }
+  }
+  return {title, lines, wrongs};
+}
+
+/* 화면 상세 HTML */
+function subjectBlockHTML(subject, recs){
+  const cls={gram:'gram',voca:'voca',read:'read',mock:'mock'}[subject];
+  const nm=APPS[subject].name;
+  let h=`<div class="secth"><span class="dot ${cls}"></span>${nm}</div>`;
+  if(subject==='mock'){
+    recs.sort((a,b)=>a.ts-b.ts).forEach(r=>{
+      const sm=String(r.detail.summary||'');
+      h+=`<div class="subbox"><div class="line" style="white-space:pre-wrap">${esc(sm)}</div></div>`;
+    });
+    return h;
+  }
+  const fn=subject==='gram'?detailGram:subject==='voca'?detailVoca:detailRead;
+  recs.sort((a,b)=>a.ts-b.ts).forEach(r=>{
+    const x=fn(r);
+    h+=`<div class="subbox"><div class="line"><b>${esc(x.title)}</b></div>`;
+    x.lines.forEach(l=>h+=`<div class="line">${esc(l)}</div>`);
+    if(x.wrongs.length){
+      h+=`<div class="wrong"><b>틀린 것</b><br>`+x.wrongs.map(w=>esc(w)).join('<br>')+`</div>`;
+    }
+    h+=`</div>`;
+  });
+  return h;
+}
+
+/* 카톡 텍스트 (세로로 길게, 꼼꼼히) */
+function buildKakao(group){
+  const recs=group.recs;
+  const L=[`[${ACADEMY}] ${group.name} · ${group.dateStr}`, '━━━━━━━━━━━━'];
+  ['read','voca','gram','mock'].forEach(sub=>{
+    const rs=recs.filter(r=>r.subject===sub); if(!rs.length) return;
+    L.push(''); L.push('■ '+APPS[sub].name);
+    if(sub==='mock'){
+      rs.sort((a,b)=>a.ts-b.ts).forEach(r=>{ L.push(String(r.detail.summary||'').trim()); });
+      return;
+    }
+    const fn=sub==='gram'?detailGram:sub==='voca'?detailVoca:detailRead;
+    rs.sort((a,b)=>a.ts-b.ts).forEach(r=>{
+      const x=fn(r);
+      L.push('· '+x.title);
+      x.lines.forEach(l=>L.push('  '+l));
+      if(x.wrongs.length){ L.push('  [틀린 것]'); x.wrongs.forEach(w=>L.push('  '+w)); }
+    });
+  });
+  return L.join('\n');
+}
+function copyText(t){
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(t).then(()=>toast('카톡에 붙여넣으세요')).catch(()=>fb(t));
+  }else fb(t);
+  function fb(t){const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');toast('카톡에 붙여넣으세요')}catch(e){toast('복사 실패')}ta.remove();}
+}
+
+/* ===== 렌더 ===== */
+let CUR=null; // 상세 보고 있는 그룹
+function render(){
+  const root=$('root');
+  if(SCREEN==='login'){
+    root.innerHTML=`<div class="login"><h1>${ACADEMY}</h1><p>통합 결과 · 선생님 전용</p>
+      <input type="password" id="pw" placeholder="선생님 비밀번호" onkeydown="if(event.key==='Enter')doLogin()">
+      <button class="btn p" style="width:100%" onclick="doLogin()">들어가기</button>
+      <div class="note" style="margin-top:14px">리딩·보카·문법·모의고사 결과를 한 곳에서 봅니다.</div></div>`;
+    setTimeout(()=>{const p=$('pw');p&&p.focus()},80); return;
+  }
+  if(SCREEN==='list'){
+    if(LOADING){ root.innerHTML=headHTML()+`<div class="spin">4개 앱에서 불러오는 중…</div>`; return; }
+    const groups=groupForList();
+    let h=headHTML();
+    if(ERRORS.length) h+=`<div class="card warnbox">${ERRORS.join(', ')} 결과를 불러오지 못했어요. 새로고침 해보세요.</div>`;
+    if(!groups.length){ h+=`<div class="empty">${SHOW_ALL?'결과가 없어요.':'어제·오늘 시험 본 학생이 없어요.<br>전체 보기를 눌러보세요.'}</div>`; root.innerHTML=h; return; }
+    // 날짜별 그룹핑
+    const byDay={};
+    groups.forEach(g=>{(byDay[g.dateStr]=byDay[g.dateStr]||[]).push(g)});
+    Object.keys(byDay).forEach(day=>{
+      h+=`<div class="daylabel">${day} · ${byDay[day].length}명</div>`;
+      byDay[day].forEach((g,i)=>{
+        const idx=GIDX(g);
+        const subs=[...g.subs];
+        const tags=subs.map(s=>`<span class="tag ${s}">${APPS[s].name}</span>`).join('');
+        h+=`<div class="card stud" onclick="openStudent(${idx})">
+          <div><div class="nm">${esc(g.name)}</div><div class="meta">${subs.length}과목 응시</div>
+          <div class="subtags">${tags}</div></div><div class="chev">›</div></div>`;
+      });
+    });
+    root.innerHTML=h; return;
+  }
+  if(SCREEN==='detail' && CUR){
+    const g=CUR;
+    let h=`<div class="head"><button class="back" onclick="SCREEN='list';render()">‹ 목록</button>
+      <h1 style="font-size:18px;margin-left:6px">${esc(g.name)}</h1></div>
+      <div class="muted" style="margin:0 2px 12px">${g.dateStr}</div>
+      <button class="btn k" style="width:100%;padding:13px;margin-bottom:14px" onclick="copyCur()">이 학생 · 이 날 전체 카톡 복사</button>`;
+    ['read','voca','gram','mock'].forEach(sub=>{
+      const rs=g.recs.filter(r=>r.subject===sub);
+      if(rs.length) h+=subjectBlockHTML(sub, rs);
+    });
+    $('root').innerHTML=h; return;
+  }
+}
+function headHTML(){
+  return `<div class="head"><h1>통합 결과</h1>
+    <div class="sp"></div>
+    <button class="btn g" onclick="loadAll()">새로고침</button>
+    <button class="btn ${SHOW_ALL?'p':'g'}" onclick="SHOW_ALL=!SHOW_ALL;render()">${SHOW_ALL?'어제·오늘':'전체보기'}</button>
+  </div>`;
+}
+// 그룹 인덱스 안정화
+let _glist=[];
+function GIDX(g){ const i=_glist.indexOf(g); if(i>=0)return i; _glist.push(g); return _glist.length-1; }
+function openStudent(i){ CUR=_glist[i]; SCREEN='detail'; render(); }
+function copyCur(){ if(CUR) copyText(buildKakao(CUR)); }
+
+function doLogin(){
+  const v=($('pw').value||'').trim();
+  if(v===TEACHER_PW){ SCREEN='list'; render(); loadAll(); }
+  else toast('비밀번호가 달라요');
+}
+// 목록 다시 그릴 때 _glist 초기화
+const _origRender=render;
+render=function(){ if(SCREEN==='list'&&!LOADING)_glist=[]; _origRender(); };
+
+render();
+</script>
+</body>
+</html>
