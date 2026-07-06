@@ -220,13 +220,28 @@ function groupForList(){
 // 반환: {title, lines:[..], wrongs:[..]}  (lines/wrongs는 문자열 배열)
 function detailGram(r){
   const d=r.detail;
+  const isLT = String(d.chapterTitle||'')==='레벨 테스트' || String(d.levelTitle||'').includes('레벨');
   const unit=String(d.unit||'').replace(/—.*$/,'').trim()||d.chapterTitle||'';
   const title=(d.chapterTitle||'')+(unit?' › '+unit:'')+(d.round?' · '+d.round+'회차':'');
   const lines=['정답 '+d.correct+'/'+d.total+' ('+d.score+'점)'+(d.passed?' · 통과':' · 미통과')];
   const wrongs=[];
+  // 레벨 테스트: 틀린 문제의 챕터별 분포 분석
+  if(isLT){
+    const chapCount={};
+    (d.wrongList||[]).forEach(w=>{
+      const ch=w.chapterTitle||w.area||'기타';
+      chapCount[ch]=(chapCount[ch]||0)+1;
+    });
+    const chaps=Object.keys(chapCount).sort((a,b)=>chapCount[b]-chapCount[a]);
+    if(chaps.length){
+      lines.push('약한 영역(오답 많은 순):');
+      chaps.forEach(ch=>lines.push('  · '+ch+' '+chapCount[ch]+'개 틀림'));
+    }
+  }
   (d.wrongList||[]).forEach(w=>{
     const stem=String(w.q||'').replace(/\[\/?U\]/g,'').replace(/\n/g,' ').trim();
-    wrongs.push(stem);
+    const chapTag = isLT && w.chapterTitle ? '['+w.chapterTitle+'] ' : '';
+    wrongs.push(chapTag+stem);
     if(w.type==='mc'&&w.choices) (w.choices||[]).forEach((c,i)=>wrongs.push('   '+(i+1)+') '+String(c).replace(/\[\/?U\]/g,'')));
   });
   return {title, lines, wrongs};
@@ -430,4 +445,3 @@ render();
 </script>
 </body>
 </html>
-
