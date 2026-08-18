@@ -422,7 +422,7 @@ function render(){
   if(SCREEN==='login'){
     root.innerHTML=`<div class="login"><h1>${ACADEMY}</h1><p>통합 결과 · 선생님 전용</p>
       <input type="password" id="pw" placeholder="선생님 비밀번호" onkeydown="if(event.key==='Enter')doLogin()">
-      <button class="btn p" style="width:100%" onclick="doLogin()">들어가기</button>
+      <button class="btn p" style="width:100%;padding:15px;font-size:16px" onclick="doLogin()">들어가기</button>
       <div class="note" style="margin-top:14px">리딩·보카·문법·모의고사·영작 결과를 한 곳에서 봅니다.</div></div>`;
     setTimeout(()=>{const p=$('pw');p&&p.focus()},80); return;
   }
