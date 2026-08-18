@@ -136,11 +136,15 @@ async function loadAll(){
     });
   }).catch(()=>ERRORS.push('문법')));
 
-  /* 보카 */
+  /* 보카 — 중등부/고등부 둘 다 호출 후 (name+date) 기준 중복 제거 */
+  const vocaSeen=new Set();
   ['중등부','고등부'].forEach(div=>{
     jobs.push(fetchJSON(APPS.voca.url+'?action=getResults&division='+encodeURIComponent(div)).then(arr=>{
       (arr||[]).forEach(r=>{
         const dt=parseDate(r.date); if(!dt) return;
+        const dedupKey=(r.name||'')+'|'+(r.id||'')+'|'+(r.unit||'')+'|'+dt.ts;
+        if(vocaSeen.has(dedupKey)) return;
+        vocaSeen.add(dedupKey);
         RECORDS.push({subject:'voca',name:r.name,idkey:(r.id||r.name||'').toLowerCase(),
           dateStr:dt.label,dayKey:dt.dayKey,ts:dt.ts,detail:r});
       });
