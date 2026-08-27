@@ -15,6 +15,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans KR',sans
 .btn.g{background:#eef1f6;color:#13233f}
 .btn.k{background:#fae100;color:#3a2c00}
 .btn.ac{background:#e8f0ff;color:#1a3fa0}
+.btn.red{background:#fdf3f2;color:#c0392b}
 .btn:disabled{opacity:.4;cursor:default}
 .card{background:#fff;border:1px solid #e2e7ef;border-radius:14px;padding:14px 16px;margin-bottom:10px;box-shadow:0 2px 10px rgba(19,35,63,.05)}
 .login{max-width:380px;margin:60px auto 0;text-align:center}
@@ -31,7 +32,6 @@ input:focus{border-color:#2b4f82}
 .tag.write{background:#fdf2ff;color:#7b2fa0}
 .subtags{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
 .isretry{border-color:#f1b6b6;background:#fdf3f2}
-.retrybadge{display:inline-block;font-size:12px;font-weight:800;color:#fff;background:#c0392b;border-radius:999px;padding:2px 10px}
 .empty{text-align:center;color:#6c7a90;padding:40px 0}
 .spin{text-align:center;color:#6c7a90;padding:30px 0}
 .toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%);background:#13233f;color:#fff;padding:11px 22px;border-radius:999px;font-size:14px;font-weight:700;opacity:0;transition:.25s;pointer-events:none;z-index:99}
@@ -40,25 +40,25 @@ input:focus{border-color:#2b4f82}
 .warnbox{background:#fff;border:1px solid #f1b6b6;color:#b3261e}
 /* 캘린더 */
 .cal{background:#fff;border:1px solid #e2e7ef;border-radius:14px;overflow:hidden;box-shadow:0 2px 10px rgba(19,35,63,.05);margin-bottom:14px}
-.cal-head{display:flex;align-items:center;padding:14px 16px;border-bottom:1px solid #f0f3f8}
-.cal-head h2{font-size:16px;font-weight:800}
+.cal-head{display:flex;align-items:center;padding:14px 18px;border-bottom:1px solid #f0f3f8}
+.cal-head h2{font-size:17px;font-weight:800}
 .cal-nav{display:flex;gap:6px;margin-left:auto}
-.cal-nav button{background:#eef1f6;border:none;border-radius:8px;width:32px;height:32px;font-size:16px;cursor:pointer;font-weight:700;color:#13233f}
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);padding:8px}
-.cal-dow{text-align:center;font-size:11px;font-weight:700;color:#9aa6b8;padding:4px 0}
-.cal-day{text-align:center;padding:6px 2px;font-size:13px;color:#6c7a90;cursor:pointer;border-radius:8px;position:relative;min-height:38px;display:flex;flex-direction:column;align-items:center;gap:2px}
+.cal-nav button{background:#eef1f6;border:none;border-radius:8px;width:36px;height:36px;font-size:18px;cursor:pointer;font-weight:700;color:#13233f}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);padding:10px 8px}
+.cal-dow{text-align:center;font-size:12px;font-weight:700;color:#9aa6b8;padding:6px 0}
+.cal-day{text-align:center;padding:4px 2px;font-size:14px;color:#6c7a90;cursor:pointer;border-radius:10px;position:relative;min-height:52px;display:flex;flex-direction:column;align-items:center;gap:3px}
 .cal-day:hover{background:#f4f6fa}
 .cal-day.cur-month{color:#16202f}
-.cal-day.today .cal-num{background:#13233f;color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-weight:800}
-.cal-day.selected .cal-num{background:#2b4f82;color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-weight:800}
-.cal-num{font-size:13px;font-weight:500;width:26px;height:26px;display:flex;align-items:center;justify-content:center}
-.cal-dots{display:flex;gap:2px;justify-content:center;min-height:6px}
-.cal-dot{width:5px;height:5px;border-radius:50%}
+.cal-day.today .cal-num{background:#13233f;color:#fff;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px}
+.cal-day.selected .cal-num{background:#2b4f82;color:#fff;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px}
+.cal-num{font-size:14px;font-weight:500;width:32px;height:32px;display:flex;align-items:center;justify-content:center}
+.cal-dots{display:flex;gap:3px;justify-content:center;min-height:7px}
+.cal-dot{width:6px;height:6px;border-radius:50%}
 .cal-dot.ok{background:#1d9e75}
 .cal-dot.retry{background:#c0392b}
-.cal-legend{display:flex;gap:14px;padding:8px 14px;border-top:1px solid #f0f3f8;font-size:11px;color:#6c7a90}
-.cal-legend span{display:flex;align-items:center;gap:4px}
-.cal-legend i{width:7px;height:7px;border-radius:50%;display:inline-block}
+.cal-legend{display:flex;gap:14px;padding:10px 16px;border-top:1px solid #f0f3f8;font-size:12px;color:#6c7a90}
+.cal-legend span{display:flex;align-items:center;gap:5px}
+.cal-legend i{width:8px;height:8px;border-radius:50%;display:inline-block}
 /* 날짜별 학생 목록 */
 .day-panel{background:#fff;border:1px solid #e2e7ef;border-radius:14px;overflow:hidden;box-shadow:0 2px 10px rgba(19,35,63,.05)}
 .day-panel-head{padding:12px 16px;border-bottom:1px solid #f0f3f8;display:flex;align-items:center;gap:8px}
@@ -69,7 +69,7 @@ input:focus{border-color:#2b4f82}
 .stud-row:last-child{border-bottom:none}
 .stud-nm{font-size:15px;font-weight:700}
 .stud-meta{font-size:12px;color:#6c7a90;margin-top:2px}
-.stud-tags{margin-left:auto;display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;max-width:180px}
+.check-badge{display:inline-block;font-size:11px;font-weight:800;color:#fff;background:#e67e22;border-radius:999px;padding:2px 9px;margin-left:6px}
 /* 상세 */
 .secth{font-size:14px;font-weight:800;margin:16px 0 8px;display:flex;align-items:center;gap:8px}
 .secth .dot{width:8px;height:8px;border-radius:50%}
@@ -84,10 +84,12 @@ input:focus{border-color:#2b4f82}
 .mgmt-row{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid #f0f3f8;background:#fff}
 .mgmt-row:last-child{border-bottom:none}
 .mgmt-nm{font-size:14px;font-weight:700;flex:1}
-.class-badge{font-size:12px;font-weight:700;border-radius:999px;padding:3px 12px;background:#e8f0ff;color:#1a3fa0}
-.class-badge.empty{background:#f0f3f8;color:#9aa6b8;border:1px dashed #ccd4e0}
-.class-input-wrap{display:flex;gap:6px;align-items:center}
-.class-input{border:1.5px solid #2b4f82;border-radius:8px;padding:5px 10px;font-size:13px;width:70px;outline:none;font-family:inherit}
+.mgmt-nm.hidden-student{color:#ccd4e0;text-decoration:line-through}
+.class-input{border:1.5px solid #2b4f82;border-radius:8px;padding:5px 10px;font-size:13px;width:80px;outline:none;font-family:inherit}
+.del-btn{background:none;border:none;font-size:18px;cursor:pointer;color:#ccd4e0;padding:2px 6px;border-radius:6px}
+.del-btn:hover{color:#c0392b;background:#fdf3f2}
+.del-btn.restore{color:#1d9e75}
+.del-btn.restore:hover{color:#0f7a56;background:#eafaf3}
 </style>
 </head>
 <body>
@@ -117,15 +119,14 @@ let RECORDS=[], ERRORS=[];
 let CAL_YEAR=new Date().getFullYear(), CAL_MONTH=new Date().getMonth();
 let SEL_DAY=null;
 let CUR=null;
-// 반 배정: {이름소문자 → 반}
 let CLASS_MAP=JSON.parse(localStorage.getItem('hailey_classes')||'{}');
-// 학생관리 편집 상태
-let EDIT_CLASS={};
+let HIDDEN_SET=new Set(JSON.parse(localStorage.getItem('hailey_hidden')||'[]'));
 
 const $=id=>document.getElementById(id);
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
 function toast(m){const t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(window._tt);window._tt=setTimeout(()=>t.classList.remove('show'),2200)}
 function mw(s){return s?String(s).split(',').map(x=>x.trim()).filter(Boolean):[]}
+function nameKey(nm){return String(nm||'').replace(/\s+/g,'').toLowerCase()}
 
 function parseDate(s){
   if(s==null)return null;
@@ -176,6 +177,7 @@ async function loadAll(){
   LOADING=false;render();
 }
 
+function isHidden(name){return HIDDEN_SET.has(nameKey(name))}
 function isRetryRecord(r){
   const d=r.detail||{};
   if(r.subject==='gram')return(Number(d.round)||1)>=2;
@@ -192,11 +194,10 @@ function monthlyRetryCount(pkey,ts){
   RECORDS.forEach(r=>{if(personKey(r)!==pkey)return;if(monthKey(r.ts)!==mk)return;if(isRetryRecord(r))n++;});
   return n;
 }
-function classOf(name){return CLASS_MAP[String(name||'').replace(/\s+/g,'').toLowerCase()]||''}
+function classOf(name){return CLASS_MAP[nameKey(name)]||''}
 
-// 날짜별 그룹
 function groupsByDay(dayKey){
-  const recs=RECORDS.filter(r=>r.dayKey===dayKey);
+  const recs=RECORDS.filter(r=>r.dayKey===dayKey&&!isHidden(r.name));
   const groups={};
   recs.forEach(r=>{
     const k=personKey(r);
@@ -208,21 +209,27 @@ function groupsByDay(dayKey){
     g.monthRetry=monthlyRetryCount(g.pkey,g.ts);
     g.cls=classOf(g.name);
     return g;
-  }).sort((a,b)=>{
-    const ca=a.cls||'zzz',cb=b.cls||'zzz';
-    return ca<cb?-1:ca>cb?1:0;
-  });
+  }).sort((a,b)=>{const ca=a.cls||'zzz',cb=b.cls||'zzz';return ca<cb?-1:ca>cb?1:0;});
 }
 
-// 캘린더에 표시할 데이터 요약
 function calDayData(){
   const map={};
-  RECORDS.forEach(r=>{
+  RECORDS.filter(r=>!isHidden(r.name)).forEach(r=>{
     if(!map[r.dayKey])map[r.dayKey]={count:0,hasRetry:false};
     map[r.dayKey].count++;
     if(isRetryRecord(r))map[r.dayKey].hasRetry=true;
   });
   return map;
+}
+
+// 반별 과목 수 비교 → 확인 필요 여부
+function needsCheck(group, byClassGroups){
+  const cls=group.cls;
+  if(!cls)return false;
+  const peers=byClassGroups[cls]||[];
+  if(peers.length<=1)return false;
+  const maxSubs=Math.max(...peers.map(g=>g.subs.size));
+  return group.subs.size<maxSubs;
 }
 
 // 상세 함수들
@@ -285,7 +292,6 @@ function subjectBlockHTML(subject,recs){
 function buildKakao(group){
   const recs=group.recs;
   const L=[`[${ACADEMY}] ${group.name} · ${group.dateStr} 테스트결과`,'━━━━━━━━━━━━'];
-  // 재시험 코멘트
   const retrySubs=[...new Set(recs.filter(isRetryRecord).map(r=>r.subject))];
   if(retrySubs.length){
     L.push('');
@@ -308,7 +314,6 @@ function copyText(t){
   function fb(t){const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');toast('카톡에 붙여넣으세요')}catch(e){toast('복사 실패')}ta.remove();}
 }
 
-/* ===== 렌더 ===== */
 let _glist=[];
 function GIDX(g){const i=_glist.indexOf(g);if(i>=0)return i;_glist.push(g);return _glist.length-1}
 function openStudent(i){CUR=_glist[i];SCREEN='detail';render()}
@@ -344,9 +349,7 @@ function render(){
     ['read','voca','gram','mock','write'].forEach(sub=>{const rs=g.recs.filter(r=>r.subject===sub);if(rs.length)h+=subjectBlockHTML(sub,rs);});
     root.innerHTML=h;return;
   }
-  if(SCREEN==='mgmt'){
-    renderMgmt();return;
-  }
+  if(SCREEN==='mgmt'){renderMgmt();return;}
 }
 
 function headHTML(){
@@ -367,7 +370,6 @@ function renderCal(calData){
     <div class="cal-nav"><button onclick="prevMonth()">‹</button><button onclick="nextMonth()">›</button></div></div>
     <div class="cal-grid">
     <div class="cal-dow">일</div><div class="cal-dow">월</div><div class="cal-dow">화</div><div class="cal-dow">수</div><div class="cal-dow">목</div><div class="cal-dow">금</div><div class="cal-dow">토</div>`;
-  // 빈칸
   for(let i=0;i<first;i++)h+=`<div class="cal-day"></div>`;
   for(let d=1;d<=last;d++){
     const dk=y+'-'+(m+1)+'-'+d;
@@ -389,12 +391,11 @@ function renderDayPanel(){
   if(!SEL_DAY)return`<div class="empty" style="margin-top:20px">날짜를 선택하면 학생 목록이 나와요</div>`;
   const groups=groupsByDay(SEL_DAY);
   if(!groups.length)return`<div class="empty" style="margin-top:20px">이 날 결과가 없어요</div>`;
-  // 날짜 레이블
   const dateStr=groups[0]?.dateStr||SEL_DAY;
-  let h=`<div class="day-panel"><div class="day-panel-head"><h3>${dateStr} · ${groups.length}명</h3></div>`;
   // 반별 묶기
   const byClass={};
   groups.forEach(g=>{const c=g.cls||'__none__';(byClass[c]=byClass[c]||[]).push(g);});
+  let h=`<div class="day-panel"><div class="day-panel-head"><h3>${dateStr} · ${groups.length}명</h3></div>`;
   const sortedClasses=Object.keys(byClass).sort((a,b)=>a==='__none__'?1:b==='__none__'?-1:a<b?-1:1);
   sortedClasses.forEach(cls=>{
     const label=cls==='__none__'?'미배정':cls;
@@ -404,9 +405,12 @@ function renderDayPanel(){
       const subs=[...g.subs];
       const tags=subs.map(s=>`<span class="tag ${s}">${APPS[s].name}</span>`).join('');
       const red=g.hasRetry;
+      const chk=needsCheck(g,byClass);
       h+=`<div class="stud-row ${red?'isretry':''}" onclick="openStudent(${idx})">
         <div style="flex:1">
-          <div class="stud-nm" style="${red?'color:#c0392b':''}">${esc(g.name)}${red?' ⭐':''}</div>
+          <div class="stud-nm" style="${red?'color:#c0392b':''}">
+            ${esc(g.name)}${red?' ⭐':''}${chk?'<span class="check-badge">확인필요</span>':''}
+          </div>
           <div class="stud-meta">${red?'재시험 · 이번 달 '+g.monthRetry+'회':subs.length+'과목 응시'}</div>
           <div class="subtags">${tags}</div>
         </div>
@@ -420,38 +424,46 @@ function renderDayPanel(){
 
 function renderMgmt(){
   const root=$('root');
-  // 전체 학생 이름 수집
   const names=new Set();
   RECORDS.forEach(r=>{if(r.name)names.add(String(r.name).trim());});
   const sorted=[...names].sort();
+  const hiddenCount=sorted.filter(nm=>HIDDEN_SET.has(nameKey(nm))).length;
   let h=`<div class="head"><button class="back" onclick="SCREEN='cal';render()">‹ 캘린더</button>
     <h1 style="font-size:17px;margin-left:6px">학생관리</h1>
     <div class="sp"></div>
     <button class="btn p" onclick="saveMgmt()">저장</button></div>
-  <div style="font-size:12px;color:#9aa6b8;margin-bottom:12px">반을 입력하면 날짜별 목록에서 반별로 묶어서 보여줍니다. 이 기기에 저장됩니다.</div>
+  <div style="font-size:12px;color:#9aa6b8;margin-bottom:12px">반 배정·학생 삭제(숨기기)를 설정합니다. 이 기기에 저장됩니다.${hiddenCount?` · 숨긴 학생 ${hiddenCount}명`:''}</div>
   <div class="card" style="padding:0;overflow:hidden">`;
   sorted.forEach((nm,i)=>{
-    const key=nm.replace(/\s+/g,'').toLowerCase();
+    const key=nameKey(nm);
     const cur=CLASS_MAP[key]||'';
-    h+=`<div class="mgmt-row" ${i===sorted.length-1?'style="border-bottom:none"':''}>
-      <div class="mgmt-nm">${esc(nm)}</div>
-      <input class="class-input" id="ci_${i}" value="${esc(cur)}" placeholder="예: 중1A" style="width:80px">
+    const hidden=HIDDEN_SET.has(key);
+    h+=`<div class="mgmt-row">
+      <div class="mgmt-nm ${hidden?'hidden-student':''}">${esc(nm)}</div>
+      ${hidden
+        ? `<span style="font-size:11px;color:#ccd4e0">숨김</span>
+           <button class="del-btn restore" onclick="toggleHide('${key}',false)" title="복원">↩</button>`
+        : `<input class="class-input" id="ci_${i}" value="${esc(cur)}" placeholder="예: 중1A">
+           <button class="del-btn" onclick="toggleHide('${key}',true)" title="숨기기(삭제)">✕</button>`
+      }
     </div>`;
   });
   h+=`</div>`;
   root.innerHTML=h;
-  // EDIT_CLASS 초기화
-  sorted.forEach((nm,i)=>{
-    const key=nm.replace(/\s+/g,'').toLowerCase();
-    EDIT_CLASS[key]={nm,idx:i};
-  });
 }
+
+function toggleHide(key,hide){
+  if(hide){HIDDEN_SET.add(key);}else{HIDDEN_SET.delete(key);}
+  localStorage.setItem('hailey_hidden',JSON.stringify([...HIDDEN_SET]));
+  renderMgmt();
+}
+
 function saveMgmt(){
   const names=new Set();
   RECORDS.forEach(r=>{if(r.name)names.add(String(r.name).trim());});
   const sorted=[...names].sort();
   sorted.forEach((nm,i)=>{
-    const key=nm.replace(/\s+/g,'').toLowerCase();
+    const key=nameKey(nm);
     const inp=$('ci_'+i);
     if(inp){const v=inp.value.trim();if(v)CLASS_MAP[key]=v;else delete CLASS_MAP[key];}
   });
