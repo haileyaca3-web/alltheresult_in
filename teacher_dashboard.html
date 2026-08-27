@@ -7,254 +7,225 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans KR',sans-serif;background:#f4f6fa;color:#16202f;padding:18px 14px 60px;max-width:760px;margin:0 auto}
-.head{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.head{display:flex;align-items:center;gap:8px;margin-bottom:14px}
 .head h1{font-size:20px;font-weight:800}
-.head .sp{margin-left:auto}
+.sp{margin-left:auto}
 .btn{border:none;border-radius:10px;padding:9px 14px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit}
 .btn.p{background:#13233f;color:#fff}
 .btn.g{background:#eef1f6;color:#13233f}
 .btn.k{background:#fae100;color:#3a2c00}
-.btn.gr{background:#1d9e75;color:#fff}
+.btn.ac{background:#e8f0ff;color:#1a3fa0}
 .btn:disabled{opacity:.4;cursor:default}
-.row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
 .card{background:#fff;border:1px solid #e2e7ef;border-radius:14px;padding:14px 16px;margin-bottom:10px;box-shadow:0 2px 10px rgba(19,35,63,.05)}
 .login{max-width:380px;margin:60px auto 0;text-align:center}
-.login h1{font-size:22px;margin-bottom:6px}.login p{color:#6c7a90;font-size:14px;margin-bottom:20px}
+.login h1{font-size:22px;margin-bottom:6px}
+.login p{color:#6c7a90;font-size:14px;margin-bottom:20px}
 input{width:100%;border:1.5px solid #dde3ec;border-radius:10px;padding:13px 14px;font-size:16px;font-family:inherit;outline:none;margin-bottom:10px}
 input:focus{border-color:#2b4f82}
-.daylabel{font-weight:800;color:#13233f;margin:16px 2px 8px;font-size:15px}
-.stud{display:flex;align-items:center;gap:10px;cursor:pointer}
-.stud .nm{font-size:17px;font-weight:700}
-.stud .meta{font-size:12.5px;color:#6c7a90;margin-top:2px}
-.pill{font-size:12px;font-weight:700;border-radius:999px;padding:3px 10px;color:#fff}
-.pill.g{background:#1d9e75}.pill.b{background:#2b4f82}
-.subtags{display:flex;gap:5px;flex-wrap:wrap;margin-top:7px}
+.back{background:#eef1f6;border:none;border-radius:10px;padding:8px 14px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;color:#13233f}
 .tag{font-size:11.5px;font-weight:700;border-radius:7px;padding:2px 8px}
 .tag.gram{background:#eef6ff;color:#2b6cb0}
 .tag.voca{background:#eafaf3;color:#0f7a56}
 .tag.read{background:#fef3e7;color:#9a5b1e}
 .tag.mock{background:#f0eefe;color:#5b4bb0}
 .tag.write{background:#fdf2ff;color:#7b2fa0}
-.muted{color:#6c7a90;font-size:13px}
-.empty{text-align:center;color:#6c7a90;padding:40px 0}
-.spin{text-align:center;color:#6c7a90;padding:30px 0}
-.chev{margin-left:auto;color:#9aa6b8;font-size:18px}
+.subtags{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
 .isretry{border-color:#f1b6b6;background:#fdf3f2}
 .retrybadge{display:inline-block;font-size:12px;font-weight:800;color:#fff;background:#c0392b;border-radius:999px;padding:2px 10px}
-/* detail */
-.back{background:#eef1f6;border:none;border-radius:10px;padding:8px 14px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;color:#13233f}
+.empty{text-align:center;color:#6c7a90;padding:40px 0}
+.spin{text-align:center;color:#6c7a90;padding:30px 0}
+.toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%);background:#13233f;color:#fff;padding:11px 22px;border-radius:999px;font-size:14px;font-weight:700;opacity:0;transition:.25s;pointer-events:none;z-index:99}
+.toast.show{opacity:1}
+.note{font-size:12px;color:#9aa6b8;margin-top:4px;line-height:1.5}
+.warnbox{background:#fff;border:1px solid #f1b6b6;color:#b3261e}
+/* 캘린더 */
+.cal{background:#fff;border:1px solid #e2e7ef;border-radius:14px;overflow:hidden;box-shadow:0 2px 10px rgba(19,35,63,.05);margin-bottom:14px}
+.cal-head{display:flex;align-items:center;padding:14px 16px;border-bottom:1px solid #f0f3f8}
+.cal-head h2{font-size:16px;font-weight:800}
+.cal-nav{display:flex;gap:6px;margin-left:auto}
+.cal-nav button{background:#eef1f6;border:none;border-radius:8px;width:32px;height:32px;font-size:16px;cursor:pointer;font-weight:700;color:#13233f}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);padding:8px}
+.cal-dow{text-align:center;font-size:11px;font-weight:700;color:#9aa6b8;padding:4px 0}
+.cal-day{text-align:center;padding:6px 2px;font-size:13px;color:#6c7a90;cursor:pointer;border-radius:8px;position:relative;min-height:38px;display:flex;flex-direction:column;align-items:center;gap:2px}
+.cal-day:hover{background:#f4f6fa}
+.cal-day.cur-month{color:#16202f}
+.cal-day.today .cal-num{background:#13233f;color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-weight:800}
+.cal-day.selected .cal-num{background:#2b4f82;color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-weight:800}
+.cal-num{font-size:13px;font-weight:500;width:26px;height:26px;display:flex;align-items:center;justify-content:center}
+.cal-dots{display:flex;gap:2px;justify-content:center;min-height:6px}
+.cal-dot{width:5px;height:5px;border-radius:50%}
+.cal-dot.ok{background:#1d9e75}
+.cal-dot.retry{background:#c0392b}
+.cal-legend{display:flex;gap:14px;padding:8px 14px;border-top:1px solid #f0f3f8;font-size:11px;color:#6c7a90}
+.cal-legend span{display:flex;align-items:center;gap:4px}
+.cal-legend i{width:7px;height:7px;border-radius:50%;display:inline-block}
+/* 날짜별 학생 목록 */
+.day-panel{background:#fff;border:1px solid #e2e7ef;border-radius:14px;overflow:hidden;box-shadow:0 2px 10px rgba(19,35,63,.05)}
+.day-panel-head{padding:12px 16px;border-bottom:1px solid #f0f3f8;display:flex;align-items:center;gap:8px}
+.day-panel-head h3{font-size:15px;font-weight:800}
+.class-header{font-size:11px;font-weight:800;color:#9aa6b8;padding:8px 16px 4px;background:#f8fafc;border-bottom:1px solid #f0f3f8;letter-spacing:.04em}
+.stud-row{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid #f0f3f8;cursor:pointer}
+.stud-row:hover{background:#f8fafc}
+.stud-row:last-child{border-bottom:none}
+.stud-nm{font-size:15px;font-weight:700}
+.stud-meta{font-size:12px;color:#6c7a90;margin-top:2px}
+.stud-tags{margin-left:auto;display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;max-width:180px}
+/* 상세 */
 .secth{font-size:14px;font-weight:800;margin:16px 0 8px;display:flex;align-items:center;gap:8px}
 .secth .dot{width:8px;height:8px;border-radius:50%}
 .dot.gram{background:#2b6cb0}.dot.voca{background:#0f7a56}.dot.read{background:#9a5b1e}.dot.mock{background:#5b4bb0}.dot.write{background:#7b2fa0}
 .line{font-size:14px;line-height:1.65;color:#2a3548}
-.line .sc{font-weight:700}
 .wrong{margin-top:6px;padding:10px 12px;background:#fbeae6;border-left:3px solid #c0492f;border-radius:0 8px 8px 0;font-size:13.5px;line-height:1.6;color:#7a2415;white-space:pre-wrap;word-break:keep-all;overflow-wrap:anywhere}
 .wrong b{color:#c0492f}
 .subbox{border:1px solid #e2e7ef;border-radius:12px;padding:12px 14px;margin-bottom:10px}
-.warnbox{background:#fff;border:1px solid #f1b6b6;color:#b3261e}
-.toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%);background:#13233f;color:#fff;padding:11px 22px;border-radius:999px;font-size:14px;font-weight:700;opacity:0;transition:.25s;pointer-events:none;z-index:99}
-.toast.show{opacity:1}
-.note{font-size:12px;color:#9aa6b8;margin-top:4px;line-height:1.5}
-.err{font-size:12px;color:#c0492f;margin-top:4px}
 .writebox{border:1px solid #e8d8f5;border-radius:12px;padding:12px 14px;margin-bottom:10px;background:#fdf8ff}
-.write-sent{font-size:13.5px;line-height:1.7;color:#2a3548;margin-bottom:4px}
-.write-ok{color:#1d9e75;font-weight:700}
-.write-bad{color:#c0392b;font-weight:700}
-.write-fix{font-size:12.5px;color:#7b2fa0;margin-top:2px}
+.comment-box{background:#fff8e1;border:1px solid #f0c060;border-radius:10px;padding:10px 14px;margin-bottom:12px;font-size:13px;color:#7a5500;line-height:1.6}
+/* 학생관리 */
+.mgmt-row{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid #f0f3f8;background:#fff}
+.mgmt-row:last-child{border-bottom:none}
+.mgmt-nm{font-size:14px;font-weight:700;flex:1}
+.class-badge{font-size:12px;font-weight:700;border-radius:999px;padding:3px 12px;background:#e8f0ff;color:#1a3fa0}
+.class-badge.empty{background:#f0f3f8;color:#9aa6b8;border:1px dashed #ccd4e0}
+.class-input-wrap{display:flex;gap:6px;align-items:center}
+.class-input{border:1.5px solid #2b4f82;border-radius:8px;padding:5px 10px;font-size:13px;width:70px;outline:none;font-family:inherit}
 </style>
 </head>
 <body>
 <div id="root"></div>
 <div class="toast" id="toast"></div>
 <script>
-/* ===== 설정 ===== */
-const TEACHER_PW = 'haileyaca1@';
-const APPS = {
-  gram:  { name:'문법',    url:'https://script.google.com/macros/s/AKfycbzUm4lQkMtuqIW2AdHkRVOf8dGHieKKq4Rg8ar1LsL-jD4YRTr8AnngbXkMboStGrjQ/exec' },
-  voca:  { name:'보카',    url:'https://script.google.com/macros/s/AKfycbxmAKVf0x4D3WfQAkepaWvnYODrpbtKpQxCjtBc8mpXz0sFe6Wzroed6PSmHGse4Tj03Q/exec' },
-  read:  { name:'리딩',    url:'https://script.google.com/macros/s/AKfycbxwNlGpJiUVXGMzWoJwxZhVjarVKLPNaQ79N3L9q8C7AxfeDsTYSSuW2JSh7TYlbKLfZg/exec' },
-  mock:  { name:'모의고사', url:'https://script.google.com/macros/s/AKfycbwa7ux4l63hTDqNUYPlUZ4xanz-VaxSNpJAEuvSHNewQz3sHge-YHnk7qM1ESar7CvM/exec' },
-  write: { name:'영작',    url:'https://script.google.com/macros/s/AKfycby9noStsKjGmYPEw5zQvopZA6wDVO0fWA60aVEqzlsvyaaivx6-Bx8FLfxW9V1G2moI2g/exec' },
+const TEACHER_PW='haileyaca1@';
+const APPS={
+  gram:{name:'문법',url:'https://script.google.com/macros/s/AKfycbzUm4lQkMtuqIW2AdHkRVOf8dGHieKKq4Rg8ar1LsL-jD4YRTr8AnngbXkMboStGrjQ/exec'},
+  voca:{name:'보카',url:'https://script.google.com/macros/s/AKfycbxmAKVf0x4D3WfQAkepaWvnYODrpbtKpQxCjtBc8mpXz0sFe6Wzroed6PSmHGse4Tj03Q/exec'},
+  read:{name:'리딩',url:'https://script.google.com/macros/s/AKfycbxwNlGpJiUVXGMzWoJwxZhVjarVKLPNaQ79N3L9q8C7AxfeDsTYSSuW2JSh7TYlbKLfZg/exec'},
+  mock:{name:'모의고사',url:'https://script.google.com/macros/s/AKfycbwa7ux4l63hTDqNUYPlUZ4xanz-VaxSNpJAEuvSHNewQz3sHge-YHnk7qM1ESar7CvM/exec'},
+  write:{name:'영작',url:'https://script.google.com/macros/s/AKfycby9noStsKjGmYPEw5zQvopZA6wDVO0fWA60aVEqzlsvyaaivx6-Bx8FLfxW9V1G2moI2g/exec'},
 };
-const ACADEMY = '헤일리 학원';
+const ACADEMY='헤일리 학원';
+const RETRY_COMMENTS={
+  gram:'문법 재시험이 있었습니다. 시간을 들여 충분히 공부하기 바랍니다.',
+  voca:'단어 재시험이 있었습니다. 시간을 들여 충분히 공부하기 바랍니다.',
+  read:'리딩 재시험이 있었습니다. 시간을 들여 충분히 공부하기 바랍니다.',
+  mock:'모의고사 재시험이 있었습니다. 시간을 들여 충분히 공부하기 바랍니다.',
+  write:'영작 재시험이 있었습니다. 시간을 들여 충분히 공부하기 바랍니다.',
+};
+const CONSULT_COMMENT='이번 달 누적 재시험 5회 이상입니다. 다음 시간에 원장 선생님과 상담이 있습니다.';
 
-/* ===== 상태 ===== */
-let SCREEN='login', LOADING=false, SHOW_ALL=false;
-let RECORDS=[];
-let ERRORS=[];
+let SCREEN='login', LOADING=false;
+let RECORDS=[], ERRORS=[];
+let CAL_YEAR=new Date().getFullYear(), CAL_MONTH=new Date().getMonth();
+let SEL_DAY=null;
+let CUR=null;
+// 반 배정: {이름소문자 → 반}
+let CLASS_MAP=JSON.parse(localStorage.getItem('hailey_classes')||'{}');
+// 학생관리 편집 상태
+let EDIT_CLASS={};
 
-/* ===== 유틸 ===== */
 const $=id=>document.getElementById(id);
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
-function toast(m){const t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(window._tt);window._tt=setTimeout(()=>t.classList.remove('show'),2000)}
+function toast(m){const t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(window._tt);window._tt=setTimeout(()=>t.classList.remove('show'),2200)}
 function mw(s){return s?String(s).split(',').map(x=>x.trim()).filter(Boolean):[]}
 
 function parseDate(s){
-  if(s==null) return null;
-  if(typeof s==='number'||/^\d{10,}$/.test(String(s))){
-    const d=new Date(Number(s)); if(!isNaN(d)) return mk(d);
-  }
+  if(s==null)return null;
+  if(typeof s==='number'||/^\d{10,}$/.test(String(s))){const d=new Date(Number(s));if(!isNaN(d))return mk(d);}
   const str=String(s).trim();
   let d=new Date(str);
-  if(!isNaN(d)&&!/^\d{4}\.\s*\d/.test(str)) return mk(d);
+  if(!isNaN(d)&&!/^\d{4}\.\s*\d/.test(str))return mk(d);
   const m=str.match(/(\d{4})\.\s*(\d{1,2})\.\s*(\d{1,2})\.?\s*(오전|오후)?\s*(\d{1,2})?:?(\d{2})?/);
-  if(m){
-    let h=m[5]?parseInt(m[5]):0; const min=m[6]?parseInt(m[6]):0;
-    if(m[4]==='오후'&&h<12)h+=12; if(m[4]==='오전'&&h===12)h=0;
-    d=new Date(parseInt(m[1]),parseInt(m[2])-1,parseInt(m[3]),h,min);
-    if(!isNaN(d)) return mk(d);
-  }
+  if(m){let h=m[5]?parseInt(m[5]):0;const min=m[6]?parseInt(m[6]):0;if(m[4]==='오후'&&h<12)h+=12;if(m[4]==='오전'&&h===12)h=0;d=new Date(parseInt(m[1]),parseInt(m[2])-1,parseInt(m[3]),h,min);if(!isNaN(d))return mk(d);}
   return null;
-  function mk(d){return{ts:d.getTime(),dayKey:d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(),
-    label:d.getFullYear()+'년 '+(d.getMonth()+1)+'월 '+d.getDate()+'일'}}
+  function mk(d){return{ts:d.getTime(),dayKey:d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(),label:d.getFullYear()+'년 '+(d.getMonth()+1)+'월 '+d.getDate()+'일'}}
 }
 function fetchJSON(url){return fetch(url,{cache:'no-store'}).then(r=>r.json())}
+function dayParam(off){const d=new Date();d.setDate(d.getDate()-off);return(d.getMonth()+1)+'/'+d.getDate()}
 
-/* 오늘/어제 날짜 문자열 (영작 앱 day action용) */
-function dayParam(offsetDays){
-  const d=new Date(); d.setDate(d.getDate()-offsetDays);
-  return (d.getMonth()+1)+'/'+d.getDate();
-}
-
-/* ===== 전체 결과 불러오기 ===== */
 async function loadAll(){
-  LOADING=true; ERRORS=[]; RECORDS=[]; render();
+  LOADING=true;ERRORS=[];RECORDS=[];render();
   const jobs=[];
-
-  /* 문법 */
   jobs.push(fetchJSON(APPS.gram.url+'?action=allResults').then(j=>{
     let list=[];
-    if(Array.isArray(j)) list=j;
-    else if(j&&Array.isArray(j.list)) list=j.list;
-    else if(j&&Array.isArray(j.results)) list=j.results;
-    else if(j&&Array.isArray(j.data)) list=j.data;
-    list.forEach(r=>{
-      const dt=parseDate(r.ts||r.date||r.time||r.timestamp||r.createdAt); if(!dt) return;
-      RECORDS.push({subject:'gram',name:r.name||r.username||r.student,
-        idkey:(r.username||r.name||'').toLowerCase(),
-        dateStr:dt.label,dayKey:dt.dayKey,ts:dt.ts,detail:r});
-    });
+    if(Array.isArray(j))list=j;
+    else if(j&&Array.isArray(j.list))list=j.list;
+    else if(j&&Array.isArray(j.results))list=j.results;
+    else if(j&&Array.isArray(j.data))list=j.data;
+    list.forEach(r=>{const dt=parseDate(r.ts||r.date||r.time||r.timestamp||r.createdAt);if(!dt)return;RECORDS.push({subject:'gram',name:r.name||r.username||r.student,idkey:(r.username||r.name||'').toLowerCase(),dateStr:dt.label,dayKey:dt.dayKey,ts:dt.ts,detail:r});});
   }).catch(()=>ERRORS.push('문법')));
-
-  /* 보카 — 중등부/고등부 둘 다 호출 후 (name+date) 기준 중복 제거 */
   const vocaSeen=new Set();
   ['중등부','고등부'].forEach(div=>{
     jobs.push(fetchJSON(APPS.voca.url+'?action=getResults&division='+encodeURIComponent(div)).then(arr=>{
-      (arr||[]).forEach(r=>{
-        const dt=parseDate(r.date); if(!dt) return;
-        const dedupKey=(r.name||'')+'|'+(r.id||'')+'|'+(r.unit||'')+'|'+dt.ts;
-        if(vocaSeen.has(dedupKey)) return;
-        vocaSeen.add(dedupKey);
-        RECORDS.push({subject:'voca',name:r.name,idkey:(r.id||r.name||'').toLowerCase(),
-          dateStr:dt.label,dayKey:dt.dayKey,ts:dt.ts,detail:r});
-      });
+      (arr||[]).forEach(r=>{const dt=parseDate(r.date);if(!dt)return;const dk=(r.name||'')+'|'+(r.id||'')+'|'+(r.unit||'')+'|'+dt.ts;if(vocaSeen.has(dk))return;vocaSeen.add(dk);RECORDS.push({subject:'voca',name:r.name,idkey:(r.id||r.name||'').toLowerCase(),dateStr:dt.label,dayKey:dt.dayKey,ts:dt.ts,detail:r});});
     }).catch(()=>{if(!ERRORS.includes('보카'))ERRORS.push('보카')}));
   });
-
-  /* 리딩 */
   jobs.push(fetchJSON(APPS.read.url+'?action=getResults').then(arr=>{
-    (arr||[]).forEach(r=>{
-      const dt=parseDate(r.date); if(!dt) return;
-      RECORDS.push({subject:'read',name:r.name,idkey:(r.id||r.name||'').toLowerCase(),
-        dateStr:dt.label,dayKey:dt.dayKey,ts:dt.ts,detail:r});
-    });
+    (arr||[]).forEach(r=>{const dt=parseDate(r.date);if(!dt)return;RECORDS.push({subject:'read',name:r.name,idkey:(r.id||r.name||'').toLowerCase(),dateStr:dt.label,dayKey:dt.dayKey,ts:dt.ts,detail:r});});
   }).catch(()=>ERRORS.push('리딩')));
-
-  /* 모의고사 */
   jobs.push(fetchJSON(APPS.mock.url).then(arr=>{
-    (arr||[]).forEach(r=>{
-      const dt=parseDate(r.time); if(!dt) return;
-      RECORDS.push({subject:'mock',name:r.student,idkey:(r.id||r.student||'').toLowerCase(),
-        dateStr:dt.label,dayKey:dt.dayKey,ts:dt.ts,detail:r});
-    });
+    (arr||[]).forEach(r=>{const dt=parseDate(r.time);if(!dt)return;RECORDS.push({subject:'mock',name:r.student,idkey:(r.id||r.student||'').toLowerCase(),dateStr:dt.label,dayKey:dt.dayKey,ts:dt.ts,detail:r});});
   }).catch(()=>ERRORS.push('모의고사')));
-
-  /* 영작 — 오늘 + 어제 두 번 호출 */
-  const writeDays = SHOW_ALL ? ['today'] : [dayParam(0), dayParam(1)];
-  // SHOW_ALL일 때는 sessions 전체를 action=day 없이 가져올 수 없으므로
-  // 최근 30일치 호출 (너무 많으면 오래 걸리므로 기본은 오늘/어제만)
-  const writeFetches = SHOW_ALL
-    ? Array.from({length:30},(_,i)=>dayParam(i))
-    : [dayParam(0), dayParam(1)];
-
-  const writeJobs = writeFetches.map(day=>
-    fetchJSON(APPS.write.url+'?action=day&day='+encodeURIComponent(day)).then(j=>{
-      if(!j||!j.ok) return;
-      // sessions 배열
-      const sessions = j.sessions||j.rows||j.data||[];
-      sessions.forEach(r=>{
-        const dt=parseDate(r.at||r.startAt); if(!dt) return;
-        const name=r.name||r.studentId||'';
-        RECORDS.push({subject:'write',name,idkey:(r.studentId||name||'').toLowerCase(),
-          dateStr:dt.label,dayKey:dt.dayKey,ts:dt.ts,detail:r});
-      });
-    }).catch(()=>{})
-  );
-  jobs.push(...writeJobs);
-  // 영작 에러는 개별 day별로 터져도 전체 에러 표시 안 함 (날짜 없으면 빈 배열 정상)
-
+  const wf=Array.from({length:7},(_,i)=>dayParam(i));
+  wf.forEach(day=>{
+    jobs.push(fetchJSON(APPS.write.url+'?action=day&day='+encodeURIComponent(day)).then(j=>{
+      if(!j||!j.ok)return;
+      const sessions=j.sessions||j.rows||j.data||[];
+      sessions.forEach(r=>{const dt=parseDate(r.at||r.startAt);if(!dt)return;const name=r.name||r.studentId||'';RECORDS.push({subject:'write',name,idkey:(r.studentId||name||'').toLowerCase(),dateStr:dt.label,dayKey:dt.dayKey,ts:dt.ts,detail:r});});
+    }).catch(()=>{}));
+  });
   await Promise.all(jobs);
-  LOADING=false; render();
+  LOADING=false;render();
 }
 
-/* ===== 재시험 판단 ===== */
 function isRetryRecord(r){
   const d=r.detail||{};
-  if(r.subject==='gram') return (Number(d.round)||1)>=2;
-  if(r.subject==='read') return String(d.retry||'').toUpperCase()==='Y';
-  if(r.subject==='mock'){
-    // retries 필드만 사용 — summary 텍스트 중복 카운트 방지
-    return Number(d.retries)>0;
-  }
-  if(r.subject==='voca'){
-    const w1=mw(d.s1wrong).length, w2=mw(d.s2wrong).length;
-    return w1>=4||w2>=4;
-  }
-  if(r.subject==='write'){
-    // 틀린 문장(ok=false) 3개 이상이면 재시험으로 간주
-    const words=d.words||[];
-    const badCount=words.filter(w=>w.ok===false||w.ok==='false'||w.ok===0).length;
-    return badCount>=3;
-  }
+  if(r.subject==='gram')return(Number(d.round)||1)>=2;
+  if(r.subject==='read')return String(d.retry||'').toUpperCase()==='Y';
+  if(r.subject==='mock')return Number(d.retries)>0;
+  if(r.subject==='voca'){const w1=mw(d.s1wrong).length,w2=mw(d.s2wrong).length;return w1>=4||w2>=4;}
+  if(r.subject==='write'){const words=d.words||[];return words.filter(w=>w.ok===false||w.ok==='false'||w.ok===0).length>=3;}
   return false;
 }
-
 function monthKey(ts){const d=new Date(ts);return d.getFullYear()+'-'+(d.getMonth()+1)}
-function personKey(r){
-  const nm=String(r.name||'').replace(/\s+/g,'').trim();
-  if(nm) return 'nm:'+nm;
-  return 'id:'+(r.idkey||'').trim();
-}
+function personKey(r){const nm=String(r.name||'').replace(/\s+/g,'').trim();return nm?'nm:'+nm:'id:'+(r.idkey||'').trim()}
 function monthlyRetryCount(pkey,ts){
-  const mk=monthKey(ts); let n=0;
-  RECORDS.forEach(r=>{
-    if(personKey(r)!==pkey) return;
-    if(monthKey(r.ts)!==mk) return;
-    if(isRetryRecord(r)) n++;
-  });
+  const mk=monthKey(ts);let n=0;
+  RECORDS.forEach(r=>{if(personKey(r)!==pkey)return;if(monthKey(r.ts)!==mk)return;if(isRetryRecord(r))n++;});
   return n;
 }
+function classOf(name){return CLASS_MAP[String(name||'').replace(/\s+/g,'').toLowerCase()]||''}
 
-/* ===== 그룹 ===== */
-function groupForList(){
-  const now=new Date(); const t0=new Date(now.getFullYear(),now.getMonth(),now.getDate()).getTime();
-  const cut=t0-86400000;
-  const recs=SHOW_ALL?RECORDS:RECORDS.filter(r=>r.ts>=cut);
+// 날짜별 그룹
+function groupsByDay(dayKey){
+  const recs=RECORDS.filter(r=>r.dayKey===dayKey);
   const groups={};
   recs.forEach(r=>{
-    const k=personKey(r)+'|'+r.dayKey;
-    if(!groups[k]) groups[k]={key:k,name:r.name,pkey:personKey(r),dayKey:r.dayKey,
-      dateStr:r.dateStr,ts:r.ts,subs:new Set(),recs:[]};
-    const g=groups[k]; g.subs.add(r.subject); g.recs.push(r); if(r.ts>g.ts)g.ts=r.ts;
+    const k=personKey(r);
+    if(!groups[k])groups[k]={name:r.name,pkey:k,dayKey:r.dayKey,dateStr:r.dateStr,ts:r.ts,subs:new Set(),recs:[]};
+    const g=groups[k];g.subs.add(r.subject);g.recs.push(r);if(r.ts>g.ts)g.ts=r.ts;
   });
   return Object.values(groups).map(g=>{
     g.hasRetry=g.recs.some(isRetryRecord);
     g.monthRetry=monthlyRetryCount(g.pkey,g.ts);
+    g.cls=classOf(g.name);
     return g;
-  }).sort((a,b)=>b.ts-a.ts);
+  }).sort((a,b)=>{
+    const ca=a.cls||'zzz',cb=b.cls||'zzz';
+    return ca<cb?-1:ca>cb?1:0;
+  });
 }
 
-/* ===== 과목별 상세 ===== */
+// 캘린더에 표시할 데이터 요약
+function calDayData(){
+  const map={};
+  RECORDS.forEach(r=>{
+    if(!map[r.dayKey])map[r.dayKey]={count:0,hasRetry:false};
+    map[r.dayKey].count++;
+    if(isRetryRecord(r))map[r.dayKey].hasRetry=true;
+  });
+  return map;
+}
+
+// 상세 함수들
 function detailGram(r){
   const d=r.detail;
   const isLT=String(d.chapterTitle||'')==='레벨 테스트'||String(d.levelTitle||'').includes('레벨');
@@ -262,37 +233,17 @@ function detailGram(r){
   const title=(d.chapterTitle||'')+(unit?' › '+unit:'')+(d.round?' · '+d.round+'회차':'');
   const lines=['정답 '+d.correct+'/'+d.total+' ('+d.score+'점)'+(d.passed?' · 통과':' · 미통과')];
   const wrongs=[];
-  if(isLT){
-    const chapCount={};
-    (d.wrongList||[]).forEach(w=>{
-      const ch=w.chapterTitle||w.area||'기타';
-      chapCount[ch]=(chapCount[ch]||0)+1;
-    });
-    const chaps=Object.keys(chapCount).sort((a,b)=>chapCount[b]-chapCount[a]);
-    if(chaps.length){lines.push('약한 영역(오답 많은 순):');chaps.forEach(ch=>lines.push('  · '+ch+' '+chapCount[ch]+'개 틀림'));}
-  }
-  (d.wrongList||[]).forEach(w=>{
-    const stem=String(w.q||'').replace(/\[\/?U\]/g,'').replace(/\n/g,' ').trim();
-    const chapTag=isLT&&w.chapterTitle?'['+w.chapterTitle+'] ':'';
-    wrongs.push(chapTag+stem);
-    if(w.type==='mc'&&w.choices)(w.choices||[]).forEach((c,i)=>wrongs.push('   '+(i+1)+') '+String(c).replace(/\[\/?U\]/g,'')));
-  });
+  if(isLT){const cc={};(d.wrongList||[]).forEach(w=>{const ch=w.chapterTitle||w.area||'기타';cc[ch]=(cc[ch]||0)+1;});const chaps=Object.keys(cc).sort((a,b)=>cc[b]-cc[a]);if(chaps.length){lines.push('약한 영역:');chaps.forEach(ch=>lines.push('  · '+ch+' '+cc[ch]+'개'));}}
+  (d.wrongList||[]).forEach(w=>{const stem=String(w.q||'').replace(/\[\/?U\]/g,'').trim();const ct=isLT&&w.chapterTitle?'['+w.chapterTitle+'] ':'';wrongs.push(ct+stem);if(w.type==='mc'&&w.choices)(w.choices||[]).forEach((c,i)=>wrongs.push('   '+(i+1)+') '+String(c).replace(/\[\/?U\]/g,'')));});
   return{title,lines,wrongs};
 }
 function detailVoca(r){
   const d=r.detail||{};
   const title='단어 · '+(d.unit||'');
-  const pickWrong=n=>{const keys=['s'+n+'wrong','S'+n+'wrong','stage'+n+'wrong','wrong'+n];for(const k of keys){if(d[k]!=null&&String(d[k]).trim()!=='')return d[k];}return '';};
-  const pickScore=n=>{const keys=['s'+n+'score','S'+n+'score','stage'+n+'score'];for(const k of keys){if(d[k]!=null&&String(d[k]).trim()!=='')return d[k];}return null;};
-  const lines=[]; let tot=0;
-  [1,2,3,4].forEach(n=>{
-    const sc=pickScore(n); const w=mw(pickWrong(n));
-    if(sc==null&&!w.length) return;
-    if(sc!=null) tot+=Number(sc)||0;
-    let line=(['Stage 1','Stage 2','Stage 3','Stage 4'][n-1])+(sc!=null?' · '+sc+'점':'');
-    if(w.length) line+=' · 오답 '+w.length+'개: '+w.join(', ');
-    lines.push(line);
-  });
+  const pw=n=>{const ks=['s'+n+'wrong','S'+n+'wrong','stage'+n+'wrong','wrong'+n];for(const k of ks){if(d[k]!=null&&String(d[k]).trim()!=='')return d[k];}return '';};
+  const ps=n=>{const ks=['s'+n+'score','S'+n+'score','stage'+n+'score'];for(const k of ks){if(d[k]!=null&&String(d[k]).trim()!=='')return d[k];}return null;};
+  const lines=[];let tot=0;
+  [1,2,3,4].forEach(n=>{const sc=ps(n);const w=mw(pw(n));if(sc==null&&!w.length)return;if(sc!=null)tot+=Number(sc)||0;let line=(['Stage 1','Stage 2','Stage 3','Stage 4'][n-1])+(sc!=null?' · '+sc+'점':'');if(w.length)line+=' · 오답 '+w.length+'개: '+w.join(', ');lines.push(line);});
   lines.unshift('총 '+tot+'점');
   return{title,lines,wrongs:[]};
 }
@@ -305,11 +256,7 @@ function detailRead(r){
   const lines=[sname+': '+d.score+'/'+d.total+' · 오답 '+wrongN+'개'];
   const wrongs=[];
   const c=d.wrongContent;
-  if(c){
-    if(String(c).includes('|||')){
-      String(c).split('///').forEach(p=>{const[a,b]=p.split('|||').map(x=>x.trim());if(a||b){wrongs.push('[틀린 것] '+(a||''));if(b)wrongs.push('   '+b);}});
-    }else{mw(c).forEach(w=>wrongs.push('[틀린 것] '+w));}
-  }
+  if(c){if(String(c).includes('|||')){String(c).split('///').forEach(p=>{const[a,b]=p.split('|||').map(x=>x.trim());if(a||b){wrongs.push('[틀린 것] '+(a||''));if(b)wrongs.push('   '+b);}});}else{mw(c).forEach(w=>wrongs.push('[틀린 것] '+w));}}
   return{title,lines,wrongs};
 }
 function detailWrite(r){
@@ -319,108 +266,54 @@ function detailWrite(r){
   const okN=words.filter(w=>w.ok===true||w.ok==='true'||w.ok===1).length;
   const total=words.length;
   const lines=[total?'정답 '+okN+'/'+total:'세션 완료'];
-  if(d.right!=null&&d.total!=null) lines[0]='정답 '+d.right+'/'+d.total;
+  if(d.right!=null&&d.total!=null)lines[0]='정답 '+d.right+'/'+d.total;
   const wrongs=[];
-  words.forEach(w=>{
-    if(w.ok===false||w.ok==='false'||w.ok===0){
-      wrongs.push((w.no||'')+(w.word?' ['+w.word+']':'')+' '+String(w.text||''));
-      if(w.fix) wrongs.push('   → '+w.fix+(w.why?' ('+w.why+')':''));
-    }
-  });
+  words.forEach(w=>{if(w.ok===false||w.ok==='false'||w.ok===0){wrongs.push((w.no||'')+(w.word?' ['+w.word+']':'')+' '+String(w.text||''));if(w.fix)wrongs.push('   → '+w.fix+(w.why?' ('+w.why+')':''));}});
   return{title,lines,wrongs};
 }
 
-/* ===== 화면 상세 HTML ===== */
 function subjectBlockHTML(subject,recs){
-  const cls=subject;
   const nm=APPS[subject].name;
-  let h=`<div class="secth"><span class="dot ${cls}"></span>${nm}</div>`;
-  if(subject==='mock'){
-    recs.sort((a,b)=>a.ts-b.ts).forEach(r=>{
-      const sm=String(r.detail.summary||'');
-      h+=`<div class="subbox"><div class="line" style="white-space:pre-wrap">${esc(sm)}</div></div>`;
-    });
-    return h;
-  }
-  if(subject==='write'){
-    recs.sort((a,b)=>a.ts-b.ts).forEach(r=>{
-      const x=detailWrite(r);
-      h+=`<div class="writebox"><div class="line"><b>${esc(x.title)}</b></div>`;
-      x.lines.forEach(l=>h+=`<div class="line">${esc(l)}</div>`);
-      if(x.wrongs.length){
-        h+=`<div class="wrong"><b>틀린 영작</b><br>`+x.wrongs.map(w=>esc(w)).join('<br>')+`</div>`;
-      }
-      h+=`</div>`;
-    });
-    return h;
-  }
+  let h=`<div class="secth"><span class="dot ${subject}"></span>${nm}</div>`;
+  if(subject==='mock'){recs.sort((a,b)=>a.ts-b.ts).forEach(r=>{h+=`<div class="subbox"><div class="line" style="white-space:pre-wrap">${esc(String(r.detail.summary||''))}</div></div>`;});return h;}
+  if(subject==='write'){recs.sort((a,b)=>a.ts-b.ts).forEach(r=>{const x=detailWrite(r);h+=`<div class="writebox"><div class="line"><b>${esc(x.title)}</b></div>`;x.lines.forEach(l=>h+=`<div class="line">${esc(l)}</div>`);if(x.wrongs.length)h+=`<div class="wrong"><b>틀린 영작</b><br>`+x.wrongs.map(w=>esc(w)).join('<br>')+`</div>`;h+=`</div>`;});return h;}
   const fn=subject==='gram'?detailGram:subject==='voca'?detailVoca:detailRead;
-  recs.sort((a,b)=>a.ts-b.ts).forEach(r=>{
-    const x=fn(r);
-    h+=`<div class="subbox"><div class="line"><b>${esc(x.title)}</b></div>`;
-    x.lines.forEach(l=>h+=`<div class="line">${esc(l)}</div>`);
-    if(x.wrongs.length){
-      h+=`<div class="wrong"><b>틀린 것</b><br>`+x.wrongs.map(w=>esc(w)).join('<br>')+`</div>`;
-    }
-    h+=`</div>`;
-  });
+  recs.sort((a,b)=>a.ts-b.ts).forEach(r=>{const x=fn(r);h+=`<div class="subbox"><div class="line"><b>${esc(x.title)}</b></div>`;x.lines.forEach(l=>h+=`<div class="line">${esc(l)}</div>`);if(x.wrongs.length)h+=`<div class="wrong"><b>틀린 것</b><br>`+x.wrongs.map(w=>esc(w)).join('<br>')+`</div>`;h+=`</div>`;});
   return h;
 }
 
-/* ===== 카톡 텍스트 ===== */
 function buildKakao(group){
   const recs=group.recs;
   const L=[`[${ACADEMY}] ${group.name} · ${group.dateStr} 테스트결과`,'━━━━━━━━━━━━'];
-  if(group.hasRetry) L.push('※ 재시험 본 학생 (이번 달 누적 '+group.monthRetry+'회)');
+  // 재시험 코멘트
+  const retrySubs=[...new Set(recs.filter(isRetryRecord).map(r=>r.subject))];
+  if(retrySubs.length){
+    L.push('');
+    retrySubs.forEach(sub=>{if(RETRY_COMMENTS[sub])L.push('※ '+RETRY_COMMENTS[sub]);});
+    if(group.monthRetry>=5)L.push('※ '+CONSULT_COMMENT);
+  }
   ['read','voca','gram','mock','write'].forEach(sub=>{
-    const rs=recs.filter(r=>r.subject===sub); if(!rs.length) return;
-    L.push(''); L.push('■ '+APPS[sub].name);
-    if(sub==='mock'){
-      rs.sort((a,b)=>a.ts-b.ts).forEach(r=>{L.push(String(r.detail.summary||'').trim());});
-      return;
-    }
-    if(sub==='write'){
-      rs.sort((a,b)=>a.ts-b.ts).forEach(r=>{
-        const x=detailWrite(r);
-        L.push('· '+x.title);
-        x.lines.forEach(l=>L.push('  '+l));
-        if(x.wrongs.length){x.wrongs.forEach(w=>L.push('  '+w));}
-      });
-      return;
-    }
-    if(sub==='read'){
-      const grps={};
-      rs.forEach(r=>{const d=r.detail||{};const key=(d.book||'')+'|'+(d.unit||'');(grps[key]=grps[key]||[]).push(r);});
-      Object.keys(grps).forEach(key=>{
-        const[book,unit]=key.split('|');
-        const header=[book,unit].filter(Boolean).join(' · ');
-        if(header)L.push('· '+header);
-        const order={1:1,2:2,3:3,6:4,4:5,5:6};
-        grps[key].sort((a,b)=>(order[a.detail.stage]||9)-(order[b.detail.stage]||9)).forEach(r=>{
-          const x=detailRead(r);x.lines.forEach(l=>L.push('  '+l));
-          if(x.wrongs.length)x.wrongs.forEach(w=>L.push('    '+w));
-        });
-      });
-      return;
-    }
+    const rs=recs.filter(r=>r.subject===sub);if(!rs.length)return;
+    L.push('');L.push('■ '+APPS[sub].name);
+    if(sub==='mock'){rs.sort((a,b)=>a.ts-b.ts).forEach(r=>{L.push(String(r.detail.summary||'').trim());});return;}
+    if(sub==='write'){rs.sort((a,b)=>a.ts-b.ts).forEach(r=>{const x=detailWrite(r);L.push('· '+x.title);x.lines.forEach(l=>L.push('  '+l));if(x.wrongs.length)x.wrongs.forEach(w=>L.push('  '+w));});return;}
+    if(sub==='read'){const grps={};rs.forEach(r=>{const d=r.detail||{};const k=(d.book||'')+'|'+(d.unit||'');(grps[k]=grps[k]||[]).push(r);});Object.keys(grps).forEach(k=>{const[book,unit]=k.split('|');const hdr=[book,unit].filter(Boolean).join(' · ');if(hdr)L.push('· '+hdr);const ord={1:1,2:2,3:3,6:4,4:5,5:6};grps[k].sort((a,b)=>(ord[a.detail.stage]||9)-(ord[b.detail.stage]||9)).forEach(r=>{const x=detailRead(r);x.lines.forEach(l=>L.push('  '+l));if(x.wrongs.length)x.wrongs.forEach(w=>L.push('    '+w));});});return;}
     const fn=sub==='gram'?detailGram:detailVoca;
-    rs.sort((a,b)=>a.ts-b.ts).forEach(r=>{
-      const x=fn(r);L.push('· '+x.title);
-      x.lines.forEach(l=>L.push('  '+l));
-      if(x.wrongs.length)x.wrongs.forEach(w=>L.push('  '+w));
-    });
+    rs.sort((a,b)=>a.ts-b.ts).forEach(r=>{const x=fn(r);L.push('· '+x.title);x.lines.forEach(l=>L.push('  '+l));if(x.wrongs.length)x.wrongs.forEach(w=>L.push('  '+w));});
   });
   return L.join('\n');
 }
 function copyText(t){
-  if(navigator.clipboard&&navigator.clipboard.writeText){
-    navigator.clipboard.writeText(t).then(()=>toast('카톡에 붙여넣으세요')).catch(()=>fb(t));
-  }else fb(t);
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(()=>toast('카톡에 붙여넣으세요')).catch(()=>fb(t));}else fb(t);
   function fb(t){const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');toast('카톡에 붙여넣으세요')}catch(e){toast('복사 실패')}ta.remove();}
 }
 
 /* ===== 렌더 ===== */
-let CUR=null;
+let _glist=[];
+function GIDX(g){const i=_glist.indexOf(g);if(i>=0)return i;_glist.push(g);return _glist.length-1}
+function openStudent(i){CUR=_glist[i];SCREEN='detail';render()}
+function copyCur(){if(CUR)copyText(buildKakao(CUR))}
+
 function render(){
   const root=$('root');
   if(SCREEN==='login'){
@@ -428,64 +321,154 @@ function render(){
       <input type="password" id="pw" placeholder="선생님 비밀번호" onkeydown="if(event.key==='Enter')doLogin()">
       <button class="btn p" style="width:100%;padding:15px;font-size:16px" onclick="doLogin()">들어가기</button>
       <div class="note" style="margin-top:14px">리딩·보카·문법·모의고사·영작 결과를 한 곳에서 봅니다.</div></div>`;
-    setTimeout(()=>{const p=$('pw');p&&p.focus()},80); return;
+    setTimeout(()=>{const p=$('pw');p&&p.focus()},80);return;
   }
-  if(SCREEN==='list'){
-    if(LOADING){root.innerHTML=headHTML()+`<div class="spin">5개 앱에서 불러오는 중…</div>`;return;}
-    const groups=groupForList();
-    let h=headHTML();
-    if(ERRORS.length) h+=`<div class="card warnbox">${ERRORS.join(', ')} 결과를 불러오지 못했어요. 새로고침 해보세요.</div>`;
-    if(!groups.length){h+=`<div class="empty">${SHOW_ALL?'결과가 없어요.':'어제·오늘 시험 본 학생이 없어요.<br>전체 보기를 눌러보세요.'}</div>`;root.innerHTML=h;return;}
-    const byDay={};
-    groups.forEach(g=>{(byDay[g.dateStr]=byDay[g.dateStr]||[]).push(g)});
-    Object.keys(byDay).forEach(day=>{
-      h+=`<div class="daylabel">${day} · ${byDay[day].length}명</div>`;
-      byDay[day].forEach(g=>{
-        const idx=GIDX(g);
-        const subs=[...g.subs];
-        const tags=subs.map(s=>`<span class="tag ${s}">${APPS[s].name}</span>`).join('');
-        const red=g.hasRetry;
-        const nmeta=red?`<span class="retrybadge">재시험 · 이번 달 ${g.monthRetry}회</span>`:`${subs.length}과목 응시`;
-        h+=`<div class="card stud ${red?'isretry':''}" onclick="openStudent(${idx})">
-          <div><div class="nm" style="${red?'color:#c0392b':''}">${esc(g.name)}</div><div class="meta">${nmeta}</div>
-          <div class="subtags">${tags}</div></div><div class="chev">›</div></div>`;
-      });
-    });
-    root.innerHTML=h; return;
+  if(SCREEN==='cal'){
+    _glist=[];
+    if(LOADING){root.innerHTML=headHTML()+`<div class="spin">불러오는 중…</div>`;return;}
+    const calData=calDayData();
+    root.innerHTML=headHTML()+renderCal(calData)+renderDayPanel();
+    return;
   }
   if(SCREEN==='detail'&&CUR){
     const g=CUR;
-    let h=`<div class="head"><button class="back" onclick="SCREEN='list';render()">‹ 목록</button>
+    const retrySubs=[...new Set(g.recs.filter(isRetryRecord).map(r=>r.subject))];
+    const commentLines=retrySubs.map(sub=>RETRY_COMMENTS[sub]).filter(Boolean);
+    if(g.monthRetry>=5)commentLines.push(CONSULT_COMMENT);
+    let h=`<div class="head"><button class="back" onclick="SCREEN='cal';render()">‹ 캘린더</button>
       <h1 style="font-size:18px;margin-left:6px">${esc(g.name)}</h1></div>
-      <div class="muted" style="margin:0 2px 12px">${g.dateStr}</div>
-      ${g.hasRetry?`<div class="card isretry" style="margin-bottom:12px;color:#c0392b;font-weight:700">재시험 본 학생 · 이번 달 누적 ${g.monthRetry}회</div>`:''}
+      <div style="color:#6c7a90;font-size:13px;margin:0 2px 12px">${g.dateStr}${g.cls?' · '+g.cls:''}</div>
+      ${g.hasRetry?`<div class="card isretry" style="margin-bottom:8px;color:#c0392b;font-weight:700">⭐ 재시험 본 학생 · 이번 달 누적 ${g.monthRetry}회</div>`:''}
+      ${commentLines.length?`<div class="comment-box">💬 ${commentLines.map(esc).join('<br>')}</div>`:''}
       <button class="btn k" style="width:100%;padding:13px;margin-bottom:14px" onclick="copyCur()">이 학생 · 이 날 전체 카톡 복사</button>`;
-    ['read','voca','gram','mock','write'].forEach(sub=>{
-      const rs=g.recs.filter(r=>r.subject===sub);
-      if(rs.length) h+=subjectBlockHTML(sub,rs);
-    });
-    $('root').innerHTML=h; return;
+    ['read','voca','gram','mock','write'].forEach(sub=>{const rs=g.recs.filter(r=>r.subject===sub);if(rs.length)h+=subjectBlockHTML(sub,rs);});
+    root.innerHTML=h;return;
+  }
+  if(SCREEN==='mgmt'){
+    renderMgmt();return;
   }
 }
+
 function headHTML(){
-  return `<div class="head"><h1>통합 결과</h1>
-    <div class="sp"></div>
+  return `<div class="head"><h1>통합 결과</h1><div class="sp"></div>
+    <button class="btn ac" onclick="SCREEN='mgmt';render()">학생관리</button>
     <button class="btn g" onclick="loadAll()">새로고침</button>
-    <button class="btn ${SHOW_ALL?'p':'g'}" onclick="SHOW_ALL=!SHOW_ALL;loadAll()">${SHOW_ALL?'어제·오늘':'전체보기'}</button>
   </div>`;
 }
-let _glist=[];
-function GIDX(g){const i=_glist.indexOf(g);if(i>=0)return i;_glist.push(g);return _glist.length-1;}
-function openStudent(i){CUR=_glist[i];SCREEN='detail';render();}
-function copyCur(){if(CUR)copyText(buildKakao(CUR));}
+
+function renderCal(calData){
+  const now=new Date();
+  const y=CAL_YEAR,m=CAL_MONTH;
+  const first=new Date(y,m,1).getDay();
+  const last=new Date(y,m+1,0).getDate();
+  const todayKey=now.getFullYear()+'-'+(now.getMonth()+1)+'-'+now.getDate();
+  const months=['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
+  let h=`<div class="cal"><div class="cal-head"><h2>${y}년 ${months[m]}</h2>
+    <div class="cal-nav"><button onclick="prevMonth()">‹</button><button onclick="nextMonth()">›</button></div></div>
+    <div class="cal-grid">
+    <div class="cal-dow">일</div><div class="cal-dow">월</div><div class="cal-dow">화</div><div class="cal-dow">수</div><div class="cal-dow">목</div><div class="cal-dow">금</div><div class="cal-dow">토</div>`;
+  // 빈칸
+  for(let i=0;i<first;i++)h+=`<div class="cal-day"></div>`;
+  for(let d=1;d<=last;d++){
+    const dk=y+'-'+(m+1)+'-'+d;
+    const isToday=dk===todayKey;
+    const isSel=SEL_DAY===dk;
+    const data=calData[dk];
+    let cls='cal-day cur-month';
+    if(isToday)cls+=' today';
+    if(isSel)cls+=' selected';
+    let dots='';
+    if(data){dots=`<div class="cal-dots">${data.hasRetry?'<div class="cal-dot retry"></div>':'<div class="cal-dot ok"></div>'}</div>`;}
+    h+=`<div class="${cls}" onclick="selectDay('${dk}')"><div class="cal-num">${d}</div>${dots}</div>`;
+  }
+  h+=`</div><div class="cal-legend"><span><i style="background:#1d9e75"></i>결과 있음</span><span><i style="background:#c0392b"></i>재시험 있음</span></div></div>`;
+  return h;
+}
+
+function renderDayPanel(){
+  if(!SEL_DAY)return`<div class="empty" style="margin-top:20px">날짜를 선택하면 학생 목록이 나와요</div>`;
+  const groups=groupsByDay(SEL_DAY);
+  if(!groups.length)return`<div class="empty" style="margin-top:20px">이 날 결과가 없어요</div>`;
+  // 날짜 레이블
+  const dateStr=groups[0]?.dateStr||SEL_DAY;
+  let h=`<div class="day-panel"><div class="day-panel-head"><h3>${dateStr} · ${groups.length}명</h3></div>`;
+  // 반별 묶기
+  const byClass={};
+  groups.forEach(g=>{const c=g.cls||'__none__';(byClass[c]=byClass[c]||[]).push(g);});
+  const sortedClasses=Object.keys(byClass).sort((a,b)=>a==='__none__'?1:b==='__none__'?-1:a<b?-1:1);
+  sortedClasses.forEach(cls=>{
+    const label=cls==='__none__'?'미배정':cls;
+    h+=`<div class="class-header">${esc(label)} · ${byClass[cls].length}명</div>`;
+    byClass[cls].forEach(g=>{
+      const idx=GIDX(g);
+      const subs=[...g.subs];
+      const tags=subs.map(s=>`<span class="tag ${s}">${APPS[s].name}</span>`).join('');
+      const red=g.hasRetry;
+      h+=`<div class="stud-row ${red?'isretry':''}" onclick="openStudent(${idx})">
+        <div style="flex:1">
+          <div class="stud-nm" style="${red?'color:#c0392b':''}">${esc(g.name)}${red?' ⭐':''}</div>
+          <div class="stud-meta">${red?'재시험 · 이번 달 '+g.monthRetry+'회':subs.length+'과목 응시'}</div>
+          <div class="subtags">${tags}</div>
+        </div>
+        <span style="color:#9aa6b8;font-size:18px">›</span>
+      </div>`;
+    });
+  });
+  h+=`</div>`;
+  return h;
+}
+
+function renderMgmt(){
+  const root=$('root');
+  // 전체 학생 이름 수집
+  const names=new Set();
+  RECORDS.forEach(r=>{if(r.name)names.add(String(r.name).trim());});
+  const sorted=[...names].sort();
+  let h=`<div class="head"><button class="back" onclick="SCREEN='cal';render()">‹ 캘린더</button>
+    <h1 style="font-size:17px;margin-left:6px">학생관리</h1>
+    <div class="sp"></div>
+    <button class="btn p" onclick="saveMgmt()">저장</button></div>
+  <div style="font-size:12px;color:#9aa6b8;margin-bottom:12px">반을 입력하면 날짜별 목록에서 반별로 묶어서 보여줍니다. 이 기기에 저장됩니다.</div>
+  <div class="card" style="padding:0;overflow:hidden">`;
+  sorted.forEach((nm,i)=>{
+    const key=nm.replace(/\s+/g,'').toLowerCase();
+    const cur=CLASS_MAP[key]||'';
+    h+=`<div class="mgmt-row" ${i===sorted.length-1?'style="border-bottom:none"':''}>
+      <div class="mgmt-nm">${esc(nm)}</div>
+      <input class="class-input" id="ci_${i}" value="${esc(cur)}" placeholder="예: 중1A" style="width:80px">
+    </div>`;
+  });
+  h+=`</div>`;
+  root.innerHTML=h;
+  // EDIT_CLASS 초기화
+  sorted.forEach((nm,i)=>{
+    const key=nm.replace(/\s+/g,'').toLowerCase();
+    EDIT_CLASS[key]={nm,idx:i};
+  });
+}
+function saveMgmt(){
+  const names=new Set();
+  RECORDS.forEach(r=>{if(r.name)names.add(String(r.name).trim());});
+  const sorted=[...names].sort();
+  sorted.forEach((nm,i)=>{
+    const key=nm.replace(/\s+/g,'').toLowerCase();
+    const inp=$('ci_'+i);
+    if(inp){const v=inp.value.trim();if(v)CLASS_MAP[key]=v;else delete CLASS_MAP[key];}
+  });
+  localStorage.setItem('hailey_classes',JSON.stringify(CLASS_MAP));
+  toast('저장했어요!');
+  SCREEN='cal';render();
+}
+
+function selectDay(dk){SEL_DAY=dk;render();}
+function prevMonth(){CAL_MONTH--;if(CAL_MONTH<0){CAL_MONTH=11;CAL_YEAR--;}render();}
+function nextMonth(){CAL_MONTH++;if(CAL_MONTH>11){CAL_MONTH=0;CAL_YEAR++;}render();}
 
 function doLogin(){
   const v=($('pw').value||'').trim();
-  if(v===TEACHER_PW){SCREEN='list';render();loadAll();}
+  if(v===TEACHER_PW){SCREEN='cal';render();loadAll();}
   else toast('비밀번호가 달라요');
 }
-const _origRender=render;
-render=function(){if(SCREEN==='list'&&!LOADING)_glist=[];_origRender();};
 
 render();
 </script>
