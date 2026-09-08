@@ -30,6 +30,7 @@ input:focus{border-color:#2b4f82}
 .tag.read{background:#fef3e7;color:#9a5b1e}
 .tag.mock{background:#f0eefe;color:#5b4bb0}
 .tag.write{background:#fdf2ff;color:#7b2fa0}
+.tag.middle{background:#eef1f7;color:#1c3055}
 .subtags{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
 .isretry{border-color:#f1b6b6;background:#fdf3f2}
 .empty{text-align:center;color:#6c7a90;padding:40px 0}
@@ -73,7 +74,7 @@ input:focus{border-color:#2b4f82}
 /* 상세 */
 .secth{font-size:14px;font-weight:800;margin:16px 0 8px;display:flex;align-items:center;gap:8px}
 .secth .dot{width:8px;height:8px;border-radius:50%}
-.dot.gram{background:#2b6cb0}.dot.voca{background:#0f7a56}.dot.read{background:#9a5b1e}.dot.mock{background:#5b4bb0}.dot.write{background:#7b2fa0}
+.dot.gram{background:#2b6cb0}.dot.voca{background:#0f7a56}.dot.read{background:#9a5b1e}.dot.mock{background:#5b4bb0}.dot.write{background:#7b2fa0}.dot.middle{background:#1c3055}
 .line{font-size:14px;line-height:1.65;color:#2a3548}
 .wrong{margin-top:6px;padding:10px 12px;background:#fbeae6;border-left:3px solid #c0492f;border-radius:0 8px 8px 0;font-size:13.5px;line-height:1.6;color:#7a2415;white-space:pre-wrap;word-break:keep-all;overflow-wrap:anywhere}
 .wrong b{color:#c0492f}
@@ -103,6 +104,7 @@ const APPS={
   read:{name:'리딩',url:'https://script.google.com/macros/s/AKfycbxwNlGpJiUVXGMzWoJwxZhVjarVKLPNaQ79N3L9q8C7AxfeDsTYSSuW2JSh7TYlbKLfZg/exec'},
   mock:{name:'모의고사',url:'https://script.google.com/macros/s/AKfycbwa7ux4l63hTDqNUYPlUZ4xanz-VaxSNpJAEuvSHNewQz3sHge-YHnk7qM1ESar7CvM/exec'},
   write:{name:'영작',url:'https://script.google.com/macros/s/AKfycby9noStsKjGmYPEw5zQvopZA6wDVO0fWA60aVEqzlsvyaaivx6-Bx8FLfxW9V1G2moI2g/exec'},
+  middle:{name:'중등부내신',url:'https://script.google.com/macros/s/AKfycbywzQxPjyA4Y1XtURWz1TNytdl-JBZshqIXc2J6o89toWJ4WE_Gbacsz8TvJ8GHJFDzgA/exec'},
 };
 const ACADEMY='헤일리 학원';
 const RETRY_COMMENTS={
@@ -111,6 +113,7 @@ const RETRY_COMMENTS={
   read:'리딩 재시험이 있었습니다. 시간을 들여 충분히 공부하기 바랍니다.',
   mock:'모의고사 재시험이 있었습니다. 충분히 공부 후 시험보세요.',
   write:'영작 재시험이 있었습니다. 시간을 들여 충분히 공부하기 바랍니다.',
+  middle:'중등부 내신 재시험이 있었습니다(90점 미만). 시간을 들여 충분히 공부하기 바랍니다.',
 };
 const CONSULT_COMMENT='이번 달 누적 재시험 5회 이상입니다. 다음 시간에 원장 선생님과 상담이 있습니다.';
 
@@ -173,6 +176,9 @@ async function loadAll(){
       sessions.forEach(r=>{const dt=parseDate(r.at||r.startAt);if(!dt)return;const name=r.name||r.studentId||'';RECORDS.push({subject:'write',name,idkey:(r.studentId||name||'').toLowerCase(),dateStr:dt.label,dayKey:dt.dayKey,ts:dt.ts,detail:r});});
     }).catch(()=>{}));
   });
+    jobs.push(fetchJSON(APPS.middle.url).then(arr=>{
+    (arr||[]).forEach(r=>{const dt=parseDate(r.date||r.at);if(!dt)return;RECORDS.push({subject:'middle',name:r.name,idkey:(r.name||'').toLowerCase(),dateStr:dt.label,dayKey:dt.dayKey,ts:dt.ts,detail:r});});
+  }).catch(()=>ERRORS.push('중등부내신')));
   await Promise.all(jobs);
   LOADING=false;render();
 }
@@ -180,6 +186,7 @@ async function loadAll(){
 function isHidden(name){return HIDDEN_SET.has(nameKey(name))}
 function isRetryRecord(r){
   const d=r.detail||{};
+  if(r.subject==='middle')return Number(d.pct)<90;
   if(r.subject==='gram')return(Number(d.round)||1)>=2;
   if(r.subject==='read')return String(d.retry||'').toUpperCase()==='Y';
   if(r.subject==='mock')return Number(d.retries)>0;
@@ -279,12 +286,20 @@ function detailWrite(r){
   return{title,lines,wrongs};
 }
 
+function fmtDurD(sec){sec=Math.max(0,Math.round(Number(sec)||0));const h=Math.floor(sec/3600),m=Math.floor(sec%3600/60);if(h>0)return h+'시간 '+m+'분';if(m>0)return m+'분';return sec+'초';}
+function detailMiddle(r){
+  const d=r.detail||{};
+  const ttl=(d.school?d.school+' · ':'')+(d.title||'');
+  const lines=['정답 '+d.score+'/'+d.total+' ('+d.pct+'%)'+(Number(d.pct)>=90?' · 통과':' · 재시험')+(d.sec?' · '+fmtDurD(d.sec):'')];
+  const wrongs=(d.wrong||[]).map(w=>String(w));
+  return{title:ttl,lines,wrongs};
+}
 function subjectBlockHTML(subject,recs){
   const nm=APPS[subject].name;
   let h=`<div class="secth"><span class="dot ${subject}"></span>${nm}</div>`;
   if(subject==='mock'){recs.sort((a,b)=>a.ts-b.ts).forEach(r=>{h+=`<div class="subbox"><div class="line" style="white-space:pre-wrap">${esc(String(r.detail.summary||''))}</div></div>`;});return h;}
   if(subject==='write'){recs.sort((a,b)=>a.ts-b.ts).forEach(r=>{const x=detailWrite(r);h+=`<div class="writebox"><div class="line"><b>${esc(x.title)}</b></div>`;x.lines.forEach(l=>h+=`<div class="line">${esc(l)}</div>`);if(x.wrongs.length)h+=`<div class="wrong"><b>틀린 영작</b><br>`+x.wrongs.map(w=>esc(w)).join('<br>')+`</div>`;h+=`</div>`;});return h;}
-  const fn=subject==='gram'?detailGram:subject==='voca'?detailVoca:detailRead;
+  const fn=subject==='middle'?detailMiddle:subject==='gram'?detailGram:subject==='voca'?detailVoca:detailRead;
   recs.sort((a,b)=>a.ts-b.ts).forEach(r=>{const x=fn(r);h+=`<div class="subbox"><div class="line"><b>${esc(x.title)}</b></div>`;x.lines.forEach(l=>h+=`<div class="line">${esc(l)}</div>`);if(x.wrongs.length)h+=`<div class="wrong"><b>틀린 것</b><br>`+x.wrongs.map(w=>esc(w)).join('<br>')+`</div>`;h+=`</div>`;});
   return h;
 }
